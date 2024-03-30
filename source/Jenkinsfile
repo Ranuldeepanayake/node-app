@@ -1,0 +1,20 @@
+#!/usr/bin/env groovy
+
+pipeline {
+
+    agent {
+        docker {
+            image 'app-1:web'
+            args '-u root'
+        }
+    }
+
+    stages {
+        stage('Build') {
+            steps {
+                echo 'Building...'
+                sh 'npm install'
+            }
+        }
+    }
+}
