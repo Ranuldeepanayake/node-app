@@ -2,11 +2,7 @@
 
 pipeline {
 
-    agent {
-        docker {
-            args '-u root'
-        }
-    }
+    agent any
 	
     stages {
         stage('Build') {
