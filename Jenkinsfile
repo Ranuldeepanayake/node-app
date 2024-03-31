@@ -12,7 +12,7 @@ pipeline {
         }
         stage('Run') {
             steps {
-                sh 'docker run -d -p 3000:3000 --name="app-1-web"'
+                sh 'docker run -d -p 3000:3000 --name="app-1-web" app-1:web'
             }
         }
     }
