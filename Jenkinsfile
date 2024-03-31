@@ -7,7 +7,7 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                sh 'docker build . -f /home/ranul/workspace/Node-App/dockerfile-app-1-web -t app-1:web'
+                sh 'docker build -f /home/ranul/workspace/Node-App/dockerfile-app-1-web -t app-1:web /'
             }
         }
         stage('Run') {
