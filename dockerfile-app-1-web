@@ -7,7 +7,7 @@ FROM localhost:5000/base-nodejs:v1
 WORKDIR /root/app-1-web
 
 #Copy code repository files
-ADD ~/workspace/Node-App/source .
+ADD /home/ranul/workspace/Node-App/source .
 
 #Set the working directory.
 WORKDIR /root/app-1-web/source
