@@ -1,0 +1,56 @@
+---
+services:
+  web:
+    build: 
+     context: /
+     dockerfile: /home/ranul/docker/dockerfile-app-1-web
+    image: 192.168.1.31:5000/app-1:web
+
+    networks:
+      - app-1-network
+    #expose:
+      #- "3000"
+    ports:
+      - "3000:3000"
+
+  database:
+    build:
+     context: /
+     dockerfile: /home/ranul/docker/dockerfile-app-1-database
+    image: 192.168.1.31:5000/app-1:database
+    environment:
+      - MYSQL_ROOT_PASSWORD=hCX7mcYKHdQZxbx8
+    volumes:
+      - mysql-data:/var/lib/mysql
+      
+    networks:
+      - app-1-network
+    #expose:
+    #- "3306"
+    ports:
+      - "3306:3306"
+
+  phpmyadmin:
+    build:
+     context: /
+     dockerfile: /home/ranul/docker/dockerfile-app-1-phpmyadmin
+    image: 192.168.1.31:5000/app-1:phpmyadmin
+    environment:
+    - PMA_HOST=database
+    - PMA_PORT=3306
+      
+    networks:
+      - app-1-network
+    #expose:
+    #- "3306"
+    ports:
+      - "80:80"
+
+networks:
+  app-1-network:
+   name: app-1-network
+   driver: bridge
+
+volumes:
+  mysql-data:
+ 

@@ -1,0 +1,23 @@
+ services:
+  nodejs:
+   build: 
+    context: /
+    dockerfile: /home/ranul/docker/dockerfile-nodejs-base
+   image: localhost:5000/base-nodejs:v1 #Push the image to the local registry.
+
+  mysql:
+   build:
+    context: /
+    dockerfile: /home/ranul/docker/dockerfile-database-base
+   image: localhost:5000/base-mysql:v1
+   environment:
+    - MYSQL_ROOT_PASSWORD=hCX7mcYKHdQZxbx8
+
+  phpmyadmin:
+   build:
+    context: /
+    dockerfile: /home/ranul/docker/dockerfile-phpmyadmin-base
+   image: localhost:5000/base-phpmyadmin:v1
+   environment:
+    - PMA_HOST=database
+    - PMA_PORT=3306

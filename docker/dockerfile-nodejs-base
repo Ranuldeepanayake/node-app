@@ -1,0 +1,22 @@
+#Dockerfile to create an Ubuntu based nodejs image.
+
+#Use the official node image.
+FROM ubuntu:latest
+
+#Update the repositories.
+RUN apt update -y
+
+#Upgrade packages
+RUN apt upgrade -y
+
+#Install the ping tool.
+#RUN apt install iputils-ping -y
+
+#Install telnet.
+#RUN apt install telnet -y 
+
+#Install node js.
+RUN apt install nodejs -y
+
+#Install NPM.
+RUN apt install npm -y

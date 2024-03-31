@@ -1,0 +1,20 @@
+#Dockerfile to create a phpmyadmin base image.
+
+#Use the official mysql image.
+FROM phpmyadmin:latest
+
+#Update the repositories.
+#RUN microdnf update -y
+
+#Upgrade packages
+#RUN microdnf upgrade -y
+
+#Install the ping tool.
+#RUN microdnf install iputils-ping -y
+
+#Install telnet.
+#RUN microdnf install telnet -y 
+
+#Set the working directory.
+WORKDIR /root
+
