@@ -4,7 +4,7 @@ pipeline {
   agent { label 'kubernetes-master-1' }
   
   stages {
-    stage('Build docker images') {
+    stage('Build') {
       steps {
         sh 'docker build -f /home/ranul/workspace/Node-App/docker/dockerfile-app-1-web -t app-1:web /'
 	sh 'docker build -f /home/ranul/workspace/Node-App/docker/dockerfile-app-1-database -t app-1:database /'
