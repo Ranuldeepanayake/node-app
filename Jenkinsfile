@@ -16,7 +16,7 @@ pipeline {
 
     stage('Deploy on Kubernetes') {
       steps {
-          sh 'kubectl apply -f /home/ranul/workspace/Node-App/deployment.yaml'
+          sh 'kubectl apply -f /home/ranul/workspace/Node-App/deployment.yml'
       }
     }
   }
