@@ -3,7 +3,7 @@
 pipeline {
   agent { 
 	  label 'kubernetes-master-1'
-          args '-u root
+          args '-u root'
   }
 	
   stages {
