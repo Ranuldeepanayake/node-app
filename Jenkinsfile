@@ -2,8 +2,7 @@
 
 pipeline {
   agent { label 'kubernetes-master-1' }
-  }
-
+  
   stages {
     #stage('Clone repository') {
      # steps {
