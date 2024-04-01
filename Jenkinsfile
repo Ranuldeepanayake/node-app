@@ -14,23 +14,17 @@ pipeline {
       #}
     #}
 
-    
-
-    stage('Build and push Docker image') {
+    stage('Build docker images') {
       steps {
-        sh 'docker build -t my-image:latest .'
-        sh 'docker push my-image:latest'
+        sh 'docker build -f /home/ranul/workspace/Node-App/docker/dockerfile-app-1-web -t app-1:web /'
+		    sh 'docker build -f /home/ranul/workspace/Node-App/docker/dockerfile-app-1-database -t app-1:database /'
+		    sh 'docker build -f /home/ranul/workspace/Node-App/docker/dockerfile-app-1-phpmyadmin -t app-1:phpmyadmin /'
       }
     }
 
-    
-
-    stage('Deploy to Kubernetes') {
+    stage('Deploy on Kubernetes') {
       steps {
-        kubernetesDeploy(
-          configs: 'kubernetes/deployment.yaml',
-          kubeconfigId: 'my-kubeconfig'
-        )
+          sh 'kubectl apply -f /home/ranul/workspace/Node-App/docker/deployment.yaml'
       }
     }
   }
