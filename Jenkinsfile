@@ -4,12 +4,6 @@ pipeline {
   agent { label 'kubernetes-master-1' }
   
   stages {
-    #stage('Clone repository') {
-     # steps {
-      #  git 'https://github.com/your-repo.git'
-      #}
-    #}
-
     stage('Build docker images') {
       steps {
         sh 'docker build -f /home/ranul/workspace/Node-App/docker/dockerfile-app-1-web -t app-1:web /'
