@@ -6,13 +6,21 @@ pipeline {
   }
 	
   stages {
-    //stage('Build') {
-      //steps {
-        //sh 'docker build -f /home/ranul/workspace/Node-App/docker/dockerfile-app-1-web -t app-1:web /'
-	//sh 'docker build -f /home/ranul/workspace/Node-App/docker/dockerfile-app-1-database -t app-1:database /'
-	//sh 'docker build -f /home/ranul/workspace/Node-App/docker/dockerfile-app-1-phpmyadmin -t app-1:phpmyadmin /'
-      //}
-    //}
+    stage('Build docker images') {
+      steps {
+	sh 'docker build -f /home/ranul/workspace/Node-App/docker/dockerfile-nodejs-base -t localhost:5000/base-nodejs:v1 /'
+	sh 'docker build -f /home/ranul/workspace/Node-App/docker/dockerfile-database-base -t localhost:5000/base-mysql:v1 /'
+	sh 'docker build -f /home/ranul/workspace/Node-App/docker/dockerfile-phpmyadmin-base -t localhost:5000/base-phpmyadmin:v1 /'
+
+	sh 'docker push localhost:5000/base-nodejs:v1'
+	sh 'docker push localhost:5000/base-mysql:v1'
+	sh 'docker push localhost:5000/base-phpmyadmin:v1'
+	      
+        sh 'docker build -f /home/ranul/workspace/Node-App/docker/dockerfile-app-1-web -t app-1:web /'
+	sh 'docker build -f /home/ranul/workspace/Node-App/docker/dockerfile-app-1-database -t app-1:database /'
+	sh 'docker build -f /home/ranul/workspace/Node-App/docker/dockerfile-app-1-phpmyadmin -t app-1:phpmyadmin /'
+      }
+    }
 
     stage('Deploy on Kubernetes') {
       steps {
