@@ -4,7 +4,7 @@
 FROM nginx:latest
 
 #Copy the source code.
-#ADD / /
+ADD /home/ranul/workspace/Node-App/nginx/index.html /usr/share/nginx/html
 
 #Set the working directory.
 #WORKDIR /root/mysql
