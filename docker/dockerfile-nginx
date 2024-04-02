@@ -1,0 +1,10 @@
+#Dockerfile to create an nginx based web server.
+
+#Use the official nginx image.
+FROM nginx:latest
+
+#Copy the source code.
+#ADD / /
+
+#Set the working directory.
+#WORKDIR /root/mysql
