@@ -18,7 +18,8 @@ pipeline {
       steps {
         sh 'kubectl apply -f /home/ranul/workspace/Node-App/kubernetes/nginx-deployment.yml'
 	      sh 'kubectl apply -f /home/ranul/workspace/Node-App/kubernetes/nginx-service.yml'
-        //sh 'kubectl set image deployment/my-deployment mycontainer=myimage:"$BUILD_NUMBER-$SHORT_GIT_COMMIT"'
+        sh 'kubectl set image deployment/nginx-deployment nginx=private:nginx'
+        //sh 'kubectl set image deployment/nginx-deployment nginx=private:nginx-"$BUILD_NUMBER"'
       }
     }
   }
