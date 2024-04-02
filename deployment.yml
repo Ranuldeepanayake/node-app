@@ -28,13 +28,13 @@ spec:
      containers:
      - name: web
        image: localhost:5000/app-1:web
-       imagePullPolicy: Never
+       imagePullPolicy: Always
        ports:
        - containerPort: 3000
 
      - name: database
        image: localhost:5000/app-1:database
-       imagePullPolicy: Never
+       imagePullPolicy: Always
        env:
        - name: MYSQL_ROOT_PASSWORD
          value: "hCX7mcYKHdQZxbx8"
