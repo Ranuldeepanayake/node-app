@@ -16,13 +16,13 @@ pipeline {
 	//sh 'docker push localhost:5000/base-mysql:v1'
 	//sh 'docker push localhost:5000/base-phpmyadmin:v1'
 	      
-        sh 'docker build -f /home/ranul/workspace/Node-App/docker/dockerfile-app-1-web -t localhost:5000/app-1:web /'
-	sh 'docker build -f /home/ranul/workspace/Node-App/docker/dockerfile-app-1-database -t localhost:5000/app-1:database /'
-	sh 'docker build -f /home/ranul/workspace/Node-App/docker/dockerfile-app-1-phpmyadmin -t localhost:5000/app-1:phpmyadmin /'
+        //sh 'docker build -f /home/ranul/workspace/Node-App/docker/dockerfile-app-1-web -t localhost:5000/app-1:web /'
+	//sh 'docker build -f /home/ranul/workspace/Node-App/docker/dockerfile-app-1-database -t localhost:5000/app-1:database /'
+	//sh 'docker build -f /home/ranul/workspace/Node-App/docker/dockerfile-app-1-phpmyadmin -t localhost:5000/app-1:phpmyadmin /'
 
-	sh 'docker push localhost:5000/app-1:web'
-	sh 'docker push localhost:5000/app-1:database'
-	sh 'docker push localhost:5000/app-1:phpmyadmin'
+	//sh 'docker push localhost:5000/app-1:web'
+	//sh 'docker push localhost:5000/app-1:database'
+	//sh 'docker push localhost:5000/app-1:phpmyadmin'
       }
     }
 
