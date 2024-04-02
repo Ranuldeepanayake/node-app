@@ -1,20 +1,26 @@
 apiVersion: apps/v1
 kind: Deployment
+
 metadata:
   name: nginx-deployment
   namespace: default
+  
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
-      app: nginx-pod
+      app: nginx
   template:
     metadata:
       labels:
-        app: nginx-pod
+        app: nginx
     spec:
+
+     imagePullSecrets:
+     - name: docker-registry
+     
      containers:
      - name: nginx
-       image: nginx:latest
+       image: ranuldeepanayake/private:nginx
        ports:
        - containerPort: 80
