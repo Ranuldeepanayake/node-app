@@ -16,7 +16,7 @@ pipeline {
 
     stage('Deploy on Kubernetes') {
       steps {
-        sh 'sed -i 's|BUILD_NUMBER|$BUILD_NUMBER|' /home/ranul/workspace/Node-App/kubernetes/nginx-deployment.yml'
+        sh "sed -i 's/BUILD_NUMBER/$BUILD_NUMBER' /home/ranul/workspace/Node-App/kubernetes/nginx-deployment.yml"
         sh 'kubectl apply -f /home/ranul/workspace/Node-App/kubernetes/nginx-deployment.yml'
 	      sh 'kubectl apply -f /home/ranul/workspace/Node-App/kubernetes/nginx-service.yml'
         //sh 'kubectl set image deployment/nginx-deployment nginx=ranuldeepanayake/private:nginx-$BUILD_NUMBER'
