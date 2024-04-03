@@ -28,7 +28,7 @@ spec:
      
      containers:
      - name: nginx
-       image: ranuldeepanayake/private:nginx
+       image: ranuldeepanayake/private:nginx-BUILD_NUMBER
        imagePullPolicy: "Always"
        ports:
        - containerPort: 80
