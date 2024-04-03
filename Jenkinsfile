@@ -7,8 +7,8 @@ pipeline {
 	
   stages {
     
-    stage('Build docker images') {
-      /*steps {
+    /*stage('Build docker images') {
+      steps {
 	      sh 'docker build -f /home/ranul/workspace/Node-App/docker/dockerfile-nginx -t ranuldeepanayake/private:nginx-$BUILD_NUMBER /'
         sh 'docker push ranuldeepanayake/private:nginx-$BUILD_NUMBER'
       }
