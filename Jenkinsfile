@@ -9,6 +9,7 @@ pipeline {
     
     stage('Build docker images') {
       steps {
+        sh "echo $GIT_BRANCH"
         sh "sed -i 's/DOCKERFILE_SOURCE_CODE_PATH/node-app_$GIT_BRANCH/g' /home/ranul/workspace/node-app_$GIT_BRANCH/docker/dockerfile-nginx"
 	      sh "docker build -f /home/ranul/workspace/node-app_$GIT_BRANCH/docker/dockerfile-nginx -t ranuldeepanayake/private:nginx-$BUILD_NUMBER-$GIT_BRANCH /"
         sh "docker push ranuldeepanayake/private:nginx-$BUILD_NUMBER-$GIT_BRANCH" 
