@@ -27,10 +27,10 @@ pipeline {
             sh "sed -i 's/NODE_PORT/30000/g' /home/ranul/workspace/node-app_$GIT_BRANCH/kubernetes/nginx-service.yml"
 
           }else if (env.GIT_BRANCH== "dev"){
-            sh "sed -i 's/NODE_PORT/35000/g' /home/ranul/workspace/node-app_$GIT_BRANCH/kubernetes/nginx-service.yml"
+            sh "sed -i 's/NODE_PORT/31000/g' /home/ranul/workspace/node-app_$GIT_BRANCH/kubernetes/nginx-service.yml"
 
           }else{
-            sh "sed -i 's/NODE_PORT/40000/g' /home/ranul/workspace/node-app_$GIT_BRANCH/kubernetes/nginx-service.yml"
+            sh "sed -i 's/NODE_PORT/32000/g' /home/ranul/workspace/node-app_$GIT_BRANCH/kubernetes/nginx-service.yml"
           }
         }
 
