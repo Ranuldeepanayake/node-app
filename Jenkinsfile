@@ -9,7 +9,7 @@ pipeline {
     
     stage('Build docker images') {
       steps {
-        sh "echo $GIT_BRANCH"
+        sh "echo current branch: $BRANCH_NAME"
         sh "sed -i 's/DOCKERFILE_SOURCE_CODE_PATH/node-app_$GIT_BRANCH/g' /home/ranul/workspace/node-app_$GIT_BRANCH/docker/dockerfile-nginx"
 	      sh "docker build -f /home/ranul/workspace/node-app_$GIT_BRANCH/docker/dockerfile-nginx -t ranuldeepanayake/private:nginx-$BUILD_NUMBER-$GIT_BRANCH /"
         sh "docker push ranuldeepanayake/private:nginx-$BUILD_NUMBER-$GIT_BRANCH" 
@@ -23,10 +23,10 @@ pipeline {
         sh "sed -i 's/BUILD_NUMBER/$BUILD_NUMBER-$GIT_BRANCH/g' /home/ranul/workspace/node-app_$GIT_BRANCH/kubernetes/nginx-deployment.yml"
 
         script {
-          if ($GIT_BRANCH== "master"){
+          if (env.GIT_BRANCH== "master"){
             sh "sed -i 's/NODE_PORT/30000/g' /home/ranul/workspace/node-app_$GIT_BRANCH/kubernetes/nginx-service.yml"
 
-          }else if ($GIT_BRANCH== "dev"){
+          }else if (env.GIT_BRANCH== "dev"){
             sh "sed -i 's/NODE_PORT/35000/g' /home/ranul/workspace/node-app_$GIT_BRANCH/kubernetes/nginx-service.yml"
 
           }else{
