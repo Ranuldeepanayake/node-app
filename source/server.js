@@ -1954,7 +1954,7 @@ app.post('/edit-item-process', uploadItemImage.single('prescriptionImageFile'), 
 app.get('/about-us', function(req, res){
 	console.log("**************About us>");
 	
-	res.render('about.ejs');
+	res.render('About.ejs');
 });
 
 
