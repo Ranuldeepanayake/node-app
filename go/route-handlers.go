@@ -12,15 +12,22 @@ func index() http.Handler {
 	// templates references the specified templates and caches the parsed results to help speed up response times.
 	html, _ := template.ParseFiles("./html/base.html", "./html/footer.html")
 
+	//Data for the dynamic table.
+	tableData := []string{}
+
+	for i := 0; i < 5; i++ {
+		tableData = append(tableData, "<tr><td>Gehan</td></tr>")
+	}
+
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		b := struct {
 			BusinessName string
 			Slogan       string
-			Table        string
+			Table        []string
 		}{
 			BusinessName: "Hamadaama Server Down,",
 			Slogan:       "Masters of downtime, never any uptime.",
-			Table:        "<tr><td>Gehan</td></tr>",
+			Table:        tableData,
 		}
 
 		err := html.ExecuteTemplate(w, "content", &b)
