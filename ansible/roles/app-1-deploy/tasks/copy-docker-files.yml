@@ -1,0 +1,25 @@
+---
+- name: Copy the docker compose file
+  copy:
+    src: /home/ranul/docker/docker-compose-app-1.yml
+    dest: ~/docker/
+    mode: u=rwx,g=rw,o=r
+
+- name: Copy the docker compose file
+  copy:
+    src: /home/ranul/docker/dockerfile-app-1-web
+    dest: ~/docker/
+    mode: u=rwx,g=rw,o=r
+
+- name: Copy the docker compose file
+  copy:
+    src: /home/ranul/docker/dockerfile-app-1-database
+    dest: ~/docker/
+    mode: u=rwx,g=rw,o=r
+  
+- name: Check the file copy operation 
+  shell: "cd /home/ranul/docker && ls -la | grep app-1"
+  register: output_1
+  
+- debug:
+   var: output_1.stdout_lines, output_1.stderr_lines

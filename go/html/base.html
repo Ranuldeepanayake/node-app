@@ -1,0 +1,51 @@
+{{ define "content"}}
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Hamadaama Server Down</title>
+    </head>
+        <body>
+            
+            <center>
+            <h1 class="hidden">Main Content</h1>
+            <span class="salutation__greeting">{{.BusinessName}}</span>
+            <span class="salutation__message">{{.Slogan}}</span>
+            </center>
+
+            <center>
+                <table>
+                    <tr>
+                    <th>Company</th>
+                    <th>Contact</th>
+                    <th>Country</th>
+                    </tr>
+                    <tr>
+                    <td>Alfreds Futterkiste</td>
+                    <td>Maria Anders</td>
+                    <td>Germany</td>
+                    </tr>
+                    <tr>
+                    <td>Centro comercial Moctezuma</td>
+                    <td>Francisco Chang</td>
+                    <td>Mexico</td>
+                    </tr>
+                </table>
+            </center>
+
+            <center>
+                <table>
+                    <tr>
+                        <th>Name</th>
+                    </tr>
+                    {{ .Table }}
+                </table>
+            </center>
+        </body>     
+
+        {{ template "footer" .}}
+</html>
+
+{{ end }}
+

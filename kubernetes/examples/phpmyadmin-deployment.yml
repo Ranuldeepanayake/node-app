@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: phpmyadmin-deployment
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: phpmyadmin
+
+  template:
+    metadata:
+      labels:
+        app: phpmyadmin
+    spec:
+
+     imagePullSecrets:
+     - name: docker-registry
+
+     containers:
+     - name: phpmyadmin
+       image: ranuldeepanayake/private:phpmyadmin
+       imagePullPolicy: Always
+       env:
+         - name: PMA_HOST
+           value: "ec2-54-169-91-96.ap-southeast-1.compute.amazonaws.com"
+         - name: PMA_PORT
+           value: "3306"
+       ports:
+       - containerPort: 8080
+   

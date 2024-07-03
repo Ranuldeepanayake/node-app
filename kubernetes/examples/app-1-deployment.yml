@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app-1-deployment
+  namespace: default
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: app-1-pod
+
+  template:
+    metadata:
+      labels:
+        app: app-1-pod
+    spec:
+
+     volumes:
+     - name: app-1-pv
+       persistentVolumeClaim:
+        claimName: app-1-pvc
+
+     containers:
+     - name: web
+       image: app-1:web
+       imagePullPolicy: Never
+       ports:
+       - containerPort: 3000
+
+     - name: database
+       image: app-1:database
+       imagePullPolicy: Never
+       env:
+       - name: MYSQL_ROOT_PASSWORD
+         value: "hCX7mcYKHdQZxbx8"
+           #volumes:
+           #- mysql-data:/var/lib/mysql
+       ports:
+       - containerPort: 3306
+       volumeMounts:
+       - name: app-1-pv
+         mountPath: /var/lib/mysql
+
+         #- name: phpmyadmin
+         #image: 192.168.1.31:5000/app-1:phpmyadmin
+         #env:
+         #- name: PMA_HOST
+         #value: "database"
+         #- name: PMA_PORT
+         #value: "3306"
+         #ports:
+         #- containerPort: 80

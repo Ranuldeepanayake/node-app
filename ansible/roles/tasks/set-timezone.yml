@@ -1,0 +1,25 @@
+---
+- name: Check the time zone.
+  shell: 'timedatectl status | grep "Time zone"'
+  register: output_1
+
+- debug:
+   var: output_1.stdout_lines
+
+
+- name: Add NTP servers.
+  become: true
+  become_user: root
+  shell: 'timedatectl set-timezone Asia/Colombo'
+  register: output_1
+
+- debug:
+   var: output_1.stdout_lines
+
+
+- name: Check the time zone.
+  shell: 'timedatectl status | grep "Time zone"'
+  register: output_1
+
+- debug:
+   var: output_1.stdout_lines

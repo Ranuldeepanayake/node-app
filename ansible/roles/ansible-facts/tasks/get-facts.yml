@@ -1,0 +1,34 @@
+---
+# display the variable data type
+- debug:
+    msg: 
+      - " Data type of 'ansible_architecture'  is {{ ansible_architecture | type_debug }} "
+      - " Data type of 'ansible_apparmor' is {{ ansible_apparmor | type_debug }} "
+      - " Data type of 'ansible_all_ipv4_addresses' is {{ ansible_all_ipv4_addresses | type_debug }} "
+
+- debug:
+    msg: 
+    - "CPU architecture: {{ ansible_architecture }}"
+    - "IPv4 addresses: {{ansible_all_ipv4_addresses}}"
+    - "First IP address: {{ansible_all_ipv4_addresses[1]}}"
+
+- debug:
+    msg: "{{ansible_distribution}}"
+
+- name: Message based on OS distribution.
+  when: ansible_facts['distribution'] == "Ubuntu" #When accessing facts for conditional statements, the 'ansible_' prefix must be dropped from facts.
+  debug:
+   msg: "This is the Ubuntu OS"
+
+- name: Ping test with all IPv4 interfaces.
+  shell: "ping google.com -I {{ item }} -c 3 -n"
+  loop: "{{ansible_all_ipv4_addresses}}"
+  register: output_1
+
+- name: Display the array of results.
+  debug:
+    msg: stdout_lines
+  loop: "{{ output_1.results }}"
+
+#- debug:
+#    var: output_1.results[1].stdout_lines

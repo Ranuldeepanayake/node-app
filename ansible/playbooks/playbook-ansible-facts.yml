@@ -1,0 +1,9 @@
+---
+  - name: A playbook for testing Ansible facts.
+    hosts: ansible-controllers:&host-2
+
+    vars_files:
+     - /home/ranul/ansible/group-vars/primary-vault.yml  
+   
+    roles:
+     - { role: /home/ranul/ansible/roles/ansible-facts }

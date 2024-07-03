@@ -1,0 +1,7 @@
+---
+- name: Run a docker container
+  shell: 'sudo docker run --name="app-1-web" -d -t -p 3000:3000 app-1-web:v1'
+  register: output_1
+  
+- debug:
+   var: output_1.stdout_lines

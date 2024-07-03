@@ -1,0 +1,7 @@
+---
+- name: Pull git repo
+  shell: "cd /home/ranul/repos/app-1-web && git fetch && git pull"
+  register: output_1
+  
+- debug:
+   var: output_1

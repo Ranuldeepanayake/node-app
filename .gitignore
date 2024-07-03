@@ -1,2 +1,6 @@
 #Node modules
 /source/node_modules/**
+/terraform/**/.terraform
+#**/terraform*
+#**terraform
+#**terraform*
