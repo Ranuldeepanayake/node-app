@@ -1,0 +1,26 @@
+---
+  - name: A test playbook.
+    hosts: host-1
+
+    vars: 
+   
+    tasks:
+     - name: Get the hostname.
+       shell: "hostname"
+       register: output_1
+       no_log: true
+
+     - debug: 
+          var: output_1.stdout_lines
+
+     - name: Pull the centos image.
+       command: "docker pull centos:latest"
+
+     - name: Create a container out of the php-mysql image.
+       command: "docker run --name=app-1 --detach --publish 8080:80 centos:latest"
+
+     - name: Create a docker network bridge for the containers.
+      command: "docker network create app-network"
+
+     - name: Connect the containers to the created network.
+      command: "docker network connect app-1"

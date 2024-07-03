@@ -1,0 +1,12 @@
+- name: Copy the Kubernetes deploy script.
+  copy:
+    src: ~/ranul/ansible/roles/kubernetes-master-deploy/tasks/kubernetes-master-deploy-script.sh
+    dest: ~/
+    mode: u=rwx,g=rw,o=r
+  
+- name: Check the file copy operation 
+  shell: "cd ~/ && ls -la | grep kubernetes-master-deploy-script.sh"
+  register: output_1
+  
+- debug:
+   var: output_1.stdout_lines, output_1.stderr_lines

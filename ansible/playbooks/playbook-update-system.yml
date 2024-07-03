@@ -1,0 +1,11 @@
+---
+  - name: A test playbook.
+    hosts: host-1
+
+    vars_files:
+     - /home/ranul/ansible/group-vars/primary-vault.yml  
+   
+    roles:
+     - { role: /home/ranul/ansible/roles/update-system }
+
+     

@@ -1,0 +1,7 @@
+---
+- name: Run the Kubernetes deploy script.
+  shell: 'sudo ./kubernetes-master-deploy-script.sh'
+  register: output_1
+  
+- debug:
+   var: output_1.stdout_lines

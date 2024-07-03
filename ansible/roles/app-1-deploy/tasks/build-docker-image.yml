@@ -1,0 +1,9 @@
+---
+- name: Execute docker compose
+  shell: "sudo docker compose -f /home/ranul/docker/docker-compose-app-1.yml up -d --build"
+  register: output_1
+
+
+  
+- debug:
+   var: output_1.stdout_lines

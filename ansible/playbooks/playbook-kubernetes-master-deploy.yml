@@ -1,0 +1,11 @@
+---
+  - name: A playbook to deploy a containerized application.
+    hosts: kubernetes-master-1
+    become: true
+    become_user: ranul
+
+    vars_files:
+     - /home/ranul/ansible/group-vars/primary-vault.yml  
+   
+    roles:
+     - { role: /home/ranul/ansible/roles/kubernetes-master-deploy }

@@ -1,0 +1,9 @@
+--- 
+- name: Update the package repository.   
+  become: true  
+  shell: "apt update"
+  register: output_1
+  no_log: false
+  
+- debug:
+   var: output_1.stdout_lines
