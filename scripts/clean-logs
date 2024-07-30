@@ -1,3 +1,0 @@
-#!/bin/bash
-
-find ./ -maxdepth 1 -iname '*.log' -mmin +5 -type f -exec rm "{}" ./old \;
