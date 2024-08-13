@@ -6,5 +6,20 @@ FROM nginx:latest
 #Copy the source code.
 ADD /home/ranul/workspace/DOCKERFILE_SOURCE_CODE_PATH/nginx/index.html /usr/share/nginx/html
 
-#Set the working directory.
-#WORKDIR /root/mysql
+#Update the repository cache.
+RUN apt update
+
+#Install vim.
+RUN apt install vim -y
+
+#Create a certificate.
+RUN openssl req -new -newkey rsa:4096 -days 365 -nodes -x509 \
+    -subj "/C=LK/ST=Western/L=Colombo/O='Hamadaama Server Down'/CN=192.168.56.129" \
+    -keyout /home/node-app-dev.key  -out /home/node-app-dev.cert
+
+#Copy the modified nginx configuration file.
+ADD /home/ranul/workspace/DOCKERFILE_SOURCE_CODE_PATH/nginx/default.conf /etc/nginx/conf.d
+
+#The entry point will automatically start the nginx service.
+
+
