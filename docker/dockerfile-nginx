@@ -10,7 +10,7 @@ ADD /home/ranul/workspace/DOCKERFILE_SOURCE_CODE_PATH/nginx/index.html /usr/shar
 RUN apt update
 
 #Install vim.
-RUN apt install vim -y
+#RUN apt install vi -y
 
 #Create a certificate.
 RUN openssl req -new -newkey rsa:4096 -days 365 -nodes -x509 \
