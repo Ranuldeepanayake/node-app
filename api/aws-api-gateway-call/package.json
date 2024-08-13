@@ -1,0 +1,20 @@
+{
+  "name": "aws-api-gateway-call",
+  "version": "1.0.1",
+  "description": "Sending API calls to AWS API gateway",
+  "main": "a.js",
+  "type": "module",
+  "author": {
+    "name": "Ranul",
+    "email": "joe@whatever.com",
+    "url": "https://whatever.com"
+  },
+  "dependencies": {
+    "axios": "^1.7.2"
+  },
+  "scripts": {
+    "start": "node ./server.js", 
+    "api-call": "node ./api-call.mjs",
+    "callback": "node ./callbacks.mjs"
+  }
+}
