@@ -7,7 +7,7 @@ FROM nginx:latest
 ADD /home/ranul/workspace/DOCKERFILE_SOURCE_CODE_PATH/nginx/index.html /usr/share/nginx/html
 
 #Update the repository cache.
-RUN apt update
+#RUN apt update
 
 #Install vim.
 #RUN apt install vi -y
