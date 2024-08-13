@@ -10,9 +10,6 @@ spec:
   selector:
     app: nginx
   ports:
-    - port: 80
-      # By default and for convenience, the `targetPort` is set to the same value as the `port` field.    - port: 80
-      targetPort: 80
-      # Optional field
-      # By default and for convenience, the Kubernetes control plane will allocate a port from a range (default: 30000-32767)
-      nodePort: NODE_PORT
+    - port: 443 #The port listed to by the application.
+      targetPort: 443 #The Pod's port traffic will be forwarded to.
+      nodePort: NODE_PORT #The port exposed by the host. By default and for convenience, the Kubernetes control plane will allocate a port from a range (default: 30000-32767)
