@@ -1,0 +1,1 @@
+aws s3 mb s3://bucket-general-1 --region ap-southeast-1 --output json > s3-create.json
