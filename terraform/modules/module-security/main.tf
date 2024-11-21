@@ -9,6 +9,7 @@ resource "aws_security_group" "security_group" {
   }
 }
 
+# Security group rule creation should happen after creating the security group itself first.
 resource "aws_security_group_rule" "allow_ssh" {
   description = "Allow SSH"
   type              = "ingress"
@@ -19,4 +20,6 @@ resource "aws_security_group_rule" "allow_ssh" {
   ipv6_cidr_blocks = ["::0/0"]
   #prefix_list_ids   = [aws_vpc_endpoint.my_endpoint.prefix_list_id]
   security_group_id = aws_security_group.security_group.id
+
+  depends_on = [ aws_security_group.security_group ]
 }

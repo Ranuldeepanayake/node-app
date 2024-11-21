@@ -1,6 +1,7 @@
 resource "aws_subnet" "subnet" {
   vpc_id     = var.vpc_id
   cidr_block = var.subnet_number
+  availability_zone = var.availability_zone
 
   assign_ipv6_address_on_creation = false
   map_public_ip_on_launch = var.assign_public_ipv4

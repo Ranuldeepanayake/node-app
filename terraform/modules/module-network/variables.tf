@@ -19,6 +19,12 @@ variable "subnet_number" {
   default     = "10.0.4.0/24"
 }
 
+variable "availability_zone" {
+  type        = string
+  description = "Availability zone of the subnet"
+  default     = "ap-southeast-1a"
+}
+
 variable "assign_public_ipv4" {
   type        = bool
   description = "Whether to use public IPv4 addresses"
