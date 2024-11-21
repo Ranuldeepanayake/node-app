@@ -2,11 +2,12 @@ resource "aws_instance" "ec2" {
   ami               = local.ami
   instance_type     = local.instance_type
   availability_zone = local.availability_zone
+  subnet_id         = var.subnet_id
 
   key_name          = local.key_name
   get_password_data = "false"
 
-  vpc_security_group_ids = ["sg-001429f4b76c8906d"]
+  vpc_security_group_ids = [var.security_group_id]
   tags                   = local.tags_all
 
   root_block_device {
@@ -22,6 +23,3 @@ resource "aws_instance" "ec2" {
     delete = local.timemout_delete
   }
 }
-
-
-
