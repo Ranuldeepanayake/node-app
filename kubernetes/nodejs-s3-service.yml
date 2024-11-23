@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+
+metadata:
+  name: nodejs-s3-service
+  namespace: default
+  
+spec:
+  type: NodePort
+  selector:
+    app: nodejs-s3
+  ports:
+    - port: 80 #The port listed to by the application.
+      targetPort: 80 #The Pod's port traffic will be forwarded to.
+      nodePort: 31222 #The port exposed by the host. By default and for convenience, the Kubernetes control plane will allocate a port from a range (default: 30000-32767)
