@@ -6,19 +6,17 @@ pipeline {
   }
 	
   stages {
-    
     stage('Build docker images') {
       steps {
-        sh "echo current branch: $BRANCH_NAME"
-	    sh "docker build -f /home/ranul/workspace/node_app/docker/dockerfile-nodejs-s3 -t ranuldeepanayake/private:nodejs-s3 /"
+	      sh "docker build -f /home/ranul/workspace/nodejs-s3/docker/dockerfile-nodejs-s3 -t ranuldeepanayake/private:nodejs-s3 /"
         //sh "docker push ranuldeepanayake/private:nodejs-s3" 
       }
     }
 
     stage('Deploy on Kubernetes') {
       steps {
-        sh 'kubectl apply -f /home/ranul/workspace/node-app/kubernetes/nodejs-s3-deployment.yml'
-        sh 'kubectl apply -f /home/ranul/workspace/node-app/kubernetes/nodejs-s3-service.yml'
+        sh 'kubectl apply -f /home/ranul/workspace/nodejs-s3/kubernetes/nodejs-s3-deployment.yml'
+        sh 'kubectl apply -f /home/ranul/workspace/nodejs-s3/kubernetes/nodejs-s3-service.yml'
       }
     }
   }
