@@ -4,6 +4,11 @@ ADD /home/ranul/repos/node-app/nodejs-s3 .
 RUN npm install
 RUN npm install express multer aws-sdk
 EXPOSE 80
+
+ENV AWS_AKID='AKIA6ODU27O6DEPBFRQD'
+ENV AWS_SAK='7gbiLuTU56YQtgGjd/54SyKJhRTVr2I92/YPzFi8'
+
+CMD [ "env" ]
 CMD [ "node", "server.js" ]
 #ENTRYPOINT [ "php", "./index.php" ]
 #RUN php ./index.php
