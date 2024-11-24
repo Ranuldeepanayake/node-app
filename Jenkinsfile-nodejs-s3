@@ -32,7 +32,6 @@ pipeline {
                 -Dsonar.projectKey=node-app \
                 -Dsonar.host.url=http://192.168.56.126:9000 \
                 -Dsonar.token=sqa_9ca3249747b23cc2fac39510d39064b6e830788a \
-                -Dsonar.projectVersion=<project-version> \
                 -Dsonar.sources=. "
           }
         }
