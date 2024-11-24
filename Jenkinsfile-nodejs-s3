@@ -27,7 +27,7 @@ pipeline {
       }
       steps {
         script {
-          withSonarQubeEnv('SonarQube-1') {
+          withSonarQubeEnv('SonarQube') {
             sh "${scannerHome}/bin/sonar-scanner \
                 -Dsonar.projectKey=node-app \
                 -Dsonar.host.url=http://192.168.56.126:9000 \
