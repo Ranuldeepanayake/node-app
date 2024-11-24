@@ -23,7 +23,7 @@ pipeline {
 
     stage('Code security analysis'){
       environment {
-        scannerHome = tool 'SonarQube-1'
+        scannerHome = tool 'SonarQube'
       }
       steps {
         script {
