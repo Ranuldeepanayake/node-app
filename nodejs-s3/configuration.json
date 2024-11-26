@@ -1,0 +1,6 @@
+{
+    "s3_conf": {
+        "region": "ap-southeast-1",
+        "bucket_name": "bucket-general-1"
+    }
+}
