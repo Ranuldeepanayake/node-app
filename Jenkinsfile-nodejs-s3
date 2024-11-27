@@ -9,7 +9,7 @@ pipeline {
 
     stage('Build docker images') {
       steps {
-        sh "sed -i "s/DOCKERFILE_SOURCE_CODE_PATH/$WORKSPACE/g" "$WORKSPACE/docker/dockerfile-nodejs-s3""
+        sh "sed -i 's/DOCKERFILE_SOURCE_CODE_PATH/'"$WORKSPACE"/g' $WORKSPACE/docker/dockerfile-nodejs-s3"
         //sh "sed -i 's/DOCKERFILE_SOURCE_CODE_PATH/\$WORKSPACE/g' $WORKSPACE/docker/dockerfile-nodejs-s3"
 	      sh "docker build -f $WORKSPACE/docker/dockerfile-nodejs-s3 -t ranuldeepanayake/private:nodejs-s3 /"
         //sh "docker push ranuldeepanayake/private:nodejs-s3" 
