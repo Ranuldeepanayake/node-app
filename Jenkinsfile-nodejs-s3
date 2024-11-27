@@ -9,12 +9,13 @@ pipeline {
 
     stage('Build docker images') {
       steps {
+        sh "echo 'hello world'"
+        sh 'echo "Path: $WORKSPACE"'
         //sh """sed -i "s/DOCKERFILE_SOURCE_CODE_PATH/$WORKSPACE/g" $WORKSPACE/docker/dockerfile-nodejs-s3"""
         //sh 'sed -i 's,DOCKERFILE_SOURCE_CODE_PATH',"$WORKSPACE"',g' $WORKSPACE/docker/dockerfile-nodejs-s3'
         //sh "sed -i 's/DOCKERFILE_SOURCE_CODE_PATH/\$WORKSPACE/g' $WORKSPACE/docker/dockerfile-nodejs-s3"
 	      //sh "docker build -f $WORKSPACE/docker/dockerfile-nodejs-s3 -t ranuldeepanayake/private:nodejs-s3 /"
         //sh "docker push ranuldeepanayake/private:nodejs-s3" 
-        sh "echo 'hello world'"
       }
     }
 
