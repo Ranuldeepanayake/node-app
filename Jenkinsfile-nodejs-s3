@@ -7,7 +7,7 @@ pipeline {
 	
   stages {
 
-    stage('Build docker images') {
+    stage('Build images on docker') {
       steps {
         sh "echo 'hello world'"
         sh 'echo "Path: $WORKSPACE"'
@@ -15,8 +15,8 @@ pipeline {
         //sh """sed -i "s/DOCKERFILE_SOURCE_CODE_PATH/$WORKSPACE/g" $WORKSPACE/docker/dockerfile-nodejs-s3"""
         //sh 'sed -i 's,DOCKERFILE_SOURCE_CODE_PATH',"$WORKSPACE"',g' $WORKSPACE/docker/dockerfile-nodejs-s3'
         //sh "sed -i 's/DOCKERFILE_SOURCE_CODE_PATH/\$WORKSPACE/g' $WORKSPACE/docker/dockerfile-nodejs-s3"
-	      //sh "docker build -f $WORKSPACE/docker/dockerfile-nodejs-s3 -t ranuldeepanayake/private:nodejs-s3 /"
-        //sh "docker push ranuldeepanayake/private:nodejs-s3" 
+	      sh "docker build -f $WORKSPACE/docker/dockerfile-nodejs-s3 -t ranuldeepanayake/private:nodejs-s3 /"
+        sh "docker push ranuldeepanayake/private:nodejs-s3" 
       }
     }
 
@@ -26,8 +26,10 @@ pipeline {
         // sh 'kubectl apply -f /home/ranul/workspace/nodejs-s3/kubernetes/nodejs-s3-service.yml'
 
         withKubeConfig([credentialsId: 'Jenkins-Plugin-Kubernetes', serverUrl: 'https://192.168.56.128:6443']) {
-          sh "kubectl get deployments"
+          sh "kubectl get nodes"
+          sh "kubectl apply -f $WORKSPACE/kubernetes/nodejs-s3-deployment.yml"
           sh "kubectl apply -f $WORKSPACE/kubernetes/nodejs-s3-service.yml"
+          sh "kubectl get pods"
           sh "kubectl get services"
         }
       }
