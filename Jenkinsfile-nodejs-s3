@@ -34,7 +34,7 @@ pipeline {
         // sh 'kubectl apply -f /home/ranul/workspace/nodejs-s3/kubernetes/nodejs-s3-service.yml'
 
         withKubeConfig([credentialsId: 'Jenkins-Plugin-Kubernetes', serverUrl: 'https://192.168.56.128:6443']) {
-          sh "kubectl get nodes"
+          //sh "kubectl get nodes"
           sh "kubectl apply -f $WORKSPACE/kubernetes/nodejs-s3-deployment.yml"
           sh "kubectl apply -f $WORKSPACE/kubernetes/nodejs-s3-service.yml"
           sh "kubectl get pods"
