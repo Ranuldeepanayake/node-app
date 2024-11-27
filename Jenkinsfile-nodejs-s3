@@ -11,6 +11,7 @@ pipeline {
       steps {
         sh "echo 'hello world'"
         sh 'echo "Path: $WORKSPACE"'
+        sh 'sed -i "s~DOCKERFILE_SOURCE_CODE_PATH~$WORKSPACE~g" "$WORKSPACE/docker/dockerfile-nodejs-s3"'
         //sh """sed -i "s/DOCKERFILE_SOURCE_CODE_PATH/$WORKSPACE/g" $WORKSPACE/docker/dockerfile-nodejs-s3"""
         //sh 'sed -i 's,DOCKERFILE_SOURCE_CODE_PATH',"$WORKSPACE"',g' $WORKSPACE/docker/dockerfile-nodejs-s3'
         //sh "sed -i 's/DOCKERFILE_SOURCE_CODE_PATH/\$WORKSPACE/g' $WORKSPACE/docker/dockerfile-nodejs-s3"
