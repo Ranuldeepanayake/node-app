@@ -7,7 +7,7 @@ pipeline {
 	
   stages {
 
-    stage('Build images on docker') {
+    stage('Build images with docker') {
       steps {
         sh "echo 'hello world'"
         sh 'echo "Path: $WORKSPACE"'
@@ -16,11 +16,19 @@ pipeline {
         //sh 'sed -i 's,DOCKERFILE_SOURCE_CODE_PATH',"$WORKSPACE"',g' $WORKSPACE/docker/dockerfile-nodejs-s3'
         //sh "sed -i 's/DOCKERFILE_SOURCE_CODE_PATH/\$WORKSPACE/g' $WORKSPACE/docker/dockerfile-nodejs-s3"
 	      sh "docker build -f $WORKSPACE/docker/dockerfile-nodejs-s3 -t ranuldeepanayake/private:nodejs-s3 /"
-        sh "docker push ranuldeepanayake/private:nodejs-s3" 
       }
     }
 
-    stage('Deploy on Kubernetes') {
+    stage('Push images to docker hub'){
+      steps {
+        withCredentials([usernamePassword(credentialsId: 'docker-hub-credentials', passwordVariable: 'DOCKERHUB_PASSWORD', usernameVariable: 'DOCKERHUB_USERNAME')]) {
+          sh "docker login -u $DOCKERHUB_USERNAME -p $DOCKERHUB_PASSWORD"
+          sh "docker push ranuldeepanayake/private:nodejs-s3" 
+        }
+      }
+    }
+
+    stage('Deploy pods on Kubernetes') {
       steps {
         // sh 'kubectl apply -f /home/ranul/workspace/nodejs-s3/kubernetes/nodejs-s3-deployment.yml'
         // sh 'kubectl apply -f /home/ranul/workspace/nodejs-s3/kubernetes/nodejs-s3-service.yml'
