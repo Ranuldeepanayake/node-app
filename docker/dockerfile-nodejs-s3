@@ -6,7 +6,7 @@ RUN npm install express multer aws-sdk
 EXPOSE 80
 
 ENV AWS_AKID='AKIA6ODU27O6DEPBFRQD'
-ENV AWS_SAK='7gbiLuTU56YQtgGjd/54SyKJhRTVr2I92/YPzFi8'
+#ENV AWS_SAK='7gbiLuTU56YQtgGjd/54SyKJhRTVr2I92/YPzFi8' #Passed as an env variable from the kubernetes yaml instead.
 
 CMD [ "env" ]
 CMD [ "node", "server.js" ]

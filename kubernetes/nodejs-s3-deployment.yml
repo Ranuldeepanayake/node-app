@@ -32,6 +32,9 @@ spec:
        imagePullPolicy: "IfNotPresent"
        ports:
        - containerPort: 80
+       env:
+       - name: AWS_SAK
+         value: 7gbiLuTU56YQtgGjd/54SyKJhRTVr2I92/YPzFi8
        #resources:
         #    requests:
          #     cpu: 100m
