@@ -29,7 +29,7 @@ spec:
      containers:
      - name: nodejs-server
        image: ranuldeepanayake/private:nodejs-s3
-       imagePullPolicy: "IfNotPresent"
+       imagePullPolicy: "Always"
        ports:
        - containerPort: 80
        env:
