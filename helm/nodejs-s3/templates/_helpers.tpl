@@ -1,5 +1,12 @@
 {{/*
-Expand the name of the chart.
+Create chart name and version as used by the chart label.
+*/}}
+{{- define "nodejs-s3.chart" -}}
+{{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" }}
+{{- end }}
+
+{{/*
+Expand the name of the chart. Default value taken from the Chart.yaml file.
 */}}
 {{- define "nodejs-s3.name" -}}
 {{- default .Chart.Name .Values.nameOverride | trunc 63 | trimSuffix "-" }}
@@ -23,40 +30,22 @@ If release name contains chart name it will be used as a full name.
 {{- end }}
 {{- end }}
 
-{{/*
-Create chart name and version as used by the chart label.
-*/}}
-{{- define "nodejs-s3.chart" -}}
-{{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" }}
-{{- end }}
 
 {{/*
 Common labels
 */}}
 {{- define "nodejs-s3.labels" -}}
-helm.sh/chart: {{ include "nodejs-s3.chart" . }}
-{{ include "nodejs-s3.selectorLabels" . }}
+managed-by: helm
+environment: test
+
 {{- if .Chart.AppVersion }}
-app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+chart-version: {{ .Chart.AppVersion | quote }}
 {{- end }}
-app.kubernetes.io/managed-by: {{ .Release.Service }}
-{{- end }}
-
-{{/*
-Selector labels
-*/}}
-{{- define "nodejs-s3.selectorLabels" -}}
-app.kubernetes.io/name: {{ include "nodejs-s3.name" . }}
-app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
 
 {{/*
-Create the name of the service account to use
+Pod selector labels
 */}}
-{{- define "nodejs-s3.serviceAccountName" -}}
-{{- if .Values.serviceAccount.create }}
-{{- default (include "nodejs-s3.fullname" .) .Values.serviceAccount.name }}
-{{- else }}
-{{- default "default" .Values.serviceAccount.name }}
-{{- end }}
+{{- define "nodejs-s3.podSelectorLabels" -}}
+app: {{ .Chart.Name }}
 {{- end }}

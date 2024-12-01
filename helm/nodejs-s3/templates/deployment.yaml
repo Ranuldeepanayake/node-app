@@ -3,6 +3,7 @@ kind: Deployment
 metadata:
   name: {{ include "nodejs-s3.fullname" . }}
   labels:
+    type: deployment
     {{- include "nodejs-s3.labels" . | nindent 4 }}
 spec:
   {{- if not .Values.autoscaling.enabled }}
@@ -10,7 +11,8 @@ spec:
   {{- end }}
   selector:
     matchLabels:
-      {{- include "nodejs-s3.selectorLabels" . | nindent 6 }}
+      {{- include "nodejs-s3.podSelectorLabels" . | nindent 6 }}
+
   template:
     metadata:
       {{- with .Values.podAnnotations }}
@@ -18,7 +20,9 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       labels:
+        type: pod
         {{- include "nodejs-s3.labels" . | nindent 8 }}
+        {{- include "nodejs-s3.podSelectorLabels" . | nindent 8 }}
         {{- with .Values.podLabels }}
         {{- toYaml . | nindent 8 }}
         {{- end }}
@@ -27,19 +31,21 @@ spec:
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      serviceAccountName: {{ include "nodejs-s3.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
-        - name: {{ .Chart.Name }}
+        - name: {{ .Chart.Name }}-server-1
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
-          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          image: "{{ .Values.image1.repository }}:{{ .Values.image1.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image1.pullPolicy }}
           ports:
             - name: http
-              containerPort: {{ .Values.service.port }}
-              protocol: TCP
+              containerPort: {{ .Values.service1.targetPort }}
+              protocol: {{ .Values.service1.protocol }}
+          env:
+            - name: AWS_SAK
+              value: {{ .Values.image1.env.AWS_SAK }}
           livenessProbe:
             {{- toYaml .Values.livenessProbe | nindent 12 }}
           readinessProbe:
@@ -50,6 +56,7 @@ spec:
           volumeMounts:
             {{- toYaml . | nindent 12 }}
           {{- end }}
+
       {{- with .Values.volumes }}
       volumes:
         {{- toYaml . | nindent 8 }}

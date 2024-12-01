@@ -1,22 +1,28 @@
-# Default values for nodejs-s3.
-# This is a YAML-formatted file.
-# Declare variables to be passed into your templates.
+replicaCount: 2
 
-replicaCount: 1
-
-image:
-  repository: nginx
-  pullPolicy: IfNotPresent
+image1:
+  name: web-1
+  repository: ranuldeepanayake/private
+  pullPolicy: Always
   # Overrides the image tag whose default is the chart appVersion.
-  tag: ""
+  tag: nodejs-s3
+  env:
+    AWS_SAK: 7gbiLuTU56YQtgGjd/54SyKJhRTVr2I92/YPzFi8
 
-imagePullSecrets: []
+image2:
+  name: web-2
+  repository: ranuldeepanayake/private
+  pullPolicy: Always
+  # Overrides the image tag whose default is the chart appVersion.
+  tag: "nodejs-s3"
+
+imagePullSecrets: [{name: docker-registry}]
 nameOverride: ""
 fullnameOverride: ""
 
 serviceAccount:
   # Specifies whether a service account should be created
-  create: true
+  create: false
   # Automatically mount a ServiceAccount's API credentials?
   automount: true
   # Annotations to add to the service account
@@ -39,9 +45,22 @@ securityContext: {}
   # runAsNonRoot: true
   # runAsUser: 1000
 
-service:
-  type: ClusterIP
-  port: 80
+service1:
+  name: nodejs-s3-1
+  type: NodePort
+  protocol: TCP
+  targetPort: 80
+  port: 81
+  nodePort: 31301
+
+service2:
+  name: nodejs-s3-2
+  type: NodePort
+  protocol: TCP
+  targetPort: 80
+  port: 81
+  nodePort: 31302
+ 
 
 ingress:
   enabled: false
@@ -59,31 +78,34 @@ ingress:
   #    hosts:
   #      - chart-example.local
 
-resources: {}
+# resources: {
+#   limits: {
+#     cpu: 100m,
+#     memory: 256Mi
+#   }
+#   # requests:
+#   #   cpu: 100m
+#   #   memory: 128Mi
+# }
   # We usually recommend not to specify default resources and to leave this as a conscious
   # choice for the user. This also increases chances charts run on environments with little
   # resources, such as Minikube. If you do want to specify resources, uncomment the following
   # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
-  # limits:
-  #   cpu: 100m
-  #   memory: 128Mi
-  # requests:
-  #   cpu: 100m
-  #   memory: 128Mi
+
 
 livenessProbe:
   httpGet:
     path: /
-    port: http
+    port: 81
 readinessProbe:
   httpGet:
     path: /
-    port: http
+    port: 81
 
 autoscaling:
   enabled: false
-  minReplicas: 1
-  maxReplicas: 100
+  minReplicas: 2
+  maxReplicas: 3
   targetCPUUtilizationPercentage: 80
   # targetMemoryUtilizationPercentage: 80
 
@@ -100,7 +122,9 @@ volumeMounts: []
 #   mountPath: "/etc/foo"
 #   readOnly: true
 
-nodeSelector: {}
+nodeSelector: {
+  node-name: kubernetes-worker-1
+}
 
 tolerations: []
 
