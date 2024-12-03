@@ -1,0 +1,128 @@
+#Docker build
+docker build -f /home/admin/docker-projects/dockerfiles/node-app -t node-app:base .
+
+#Run non-interactive container which exits the shell.
+docker run --name="node-app" --publish 80:80 --detach node-app:base
+
+#Build docker image
+docker build -f ./docker-file -t node-app:tag .
+docker build -f ./app-1 -t app-1:latest: .
+sudo docker build -f ~/docker/dockerfile-app-1-web -t app-1-web:v1 ~
+
+#Run interactive container which doesn't exit the shell.
+docker run --name="app-1-web" -d -t -p 80:80 app-1-web:v1
+docker run --name="app-1-database" --env MYSQL_ROOT_PASSWORD=root@123 -d -t -p 3306:3306 app-1-database:v1
+
+#Run container which self-restarts.
+docker run --name=mysql1 --restart on-failure -d container-registry.oracle.com/mysql/community-server:latest
+
+#Open a console session in a running container.
+docker exec -it mysql-1 bash
+
+#Prevent a docker container from exitting.
+CMD tail -f /dev/null
+
+--------------------------------------------------------------------------------------
+Network
+--------------------------------------------------------------------------------------
+#Create docker network.
+docker network create app-1-network
+
+#Connect containers to network.
+docker network connect app-1-network app-1 --ip x.x.x.x
+docker network connect app-1-network mysql-1 --ip x.x.x.x
+docker network connect app-1-network phpmyadmin-1 --ip x.x.x.x
+
+#<Host port>:<Container port>
+
+--------------------------------------------------------------------------------------
+Storage
+--------------------------------------------------------------------------------------
+#Mount host directory to a docker container.
+docker run --name="node-app-1" -d -t -p 80:80 -p 443:443 --mount src=/home/ranul/node/app-1,target=/root/node-app,type=bind node-app:latest
+
+#Mount docker volume to docker container.
+docker run --name="dns-1" -d -t -p 53:53 --mount src=bind9,target=/data/,type=volume bind9:latest
+
+#Copy files from the Docker host.
+scp -r root@192.168.1.26:/root/ansible .\
+
+#Mount host volume to a docker container.
+docker run --name="app-1" -d -t -p 80:80 --mount src=/home/ubuntu/projects/sep/source,target=/root/projects/sep/source,type=bind app-1:latest
+
+r00tPa$$@123#
+
+--------------------------------------------------------------------------------------
+Registry
+--------------------------------------------------------------------------------------
+#Pull image from a repository.
+docker pull  container-registry.oracle.com/mysql/enterprise-server:tag
+
+#Create local docker registry
+docker run -d -p 5000:5000 --name docker-registry registry:latest
+
+#Tag image for a local repository.
+docker tag ubuntu:base localhost:5000/ubuntu:base
+
+#Push image to a local repository.
+docker push localhost:5000/ubuntu:base
+
+#Log in to docker hub before pushing or pulling (push secrets used in Kubernetes instead).
+docker login --username <username>
+
+#Docker hub access token
+dckr_pat_HBdXNzE2mEfFPW5KT4TZv3EpG-A
+
+#Create a docker registry with authentication.
+docker run --entrypoint htpasswd httpd:2 -Bbn admin Password@123 > auth/htpasswd
+
+docker run -d -p 5000:5000 --restart=always --name docker-registry -v /home/ranul/temp/auth:/auth \
+-e "REGISTRY_AUTH=htpasswd" -e "REGISTRY_AUTH_HTPASSWD_REALM=Registry Realm" -e REGISTRY_AUTH_HTPASSWD_PATH=/auth/htpasswd registry:latest
+
+sudo docker run -d --restart=always --name docker-registry -v /home/ranul/temp/auth:/auth -v /home/ranul/temp/certs:/certs \
+-e REGISTRY_AUTH=htpasswd -e REGISTRY_AUTH_HTPASSWD_REALM="Registry Realm" -e REGISTRY_AUTH_HTPASSWD_PATH=/auth/htpasswd -e REGISTRY_HTTP_ADDR=0.0.0.0:443 \
+-e REGISTRY_HTTP_TLS_CERTIFICATE=/certs/domain.crt -e REGISTRY_HTTP_TLS_KEY=/certs/domain.key -p 443:443 registry:latest
+
+--------------------------------------------------------------------------------------
+LAMP
+--------------------------------------------------------------------------------------
+#Run a phpMyadmin container with a link to a MySQL container.
+docker run --name=phpmyadmin-1 --detach --publish 8080:80 --env PMA_HOST=mysql-1 phpmyadmin/phpmyadmin:latest
+
+#Run a MySQL container with a root account password.
+docker run --name=mysql-1 --detach --publish 3306:3306 --env MYSQL_ROOT_PASSWORD=root@123 mysql/mysql-server:latest
+
+#Get the auto generated mysql root password.
+docker logs mysql 2>&1 | grep GENERATED
+
+#Run a SQL script on a docker container.
+docker exec -i docker-database-1 sh -c 'exec mysql -uroot -p"$MYSQL_ROOT_PASSWORD"' < /some/path/on/your/host/all-databases.sql
+
+#Import SQL script into MySQL container using docker.
+#Note that the SQL file is on the docker host.
+docker exec -i docker-database-1  mysql -u root -proot@123 < /home/ranul/repos/app-1-web/other-resources/sep-27-02-2022.sql
+
+--------------------------------------------------------------------------------------
+Docker compose
+--------------------------------------------------------------------------------------
+#Use docker compose to only build the images. The file name should be docker-compose.yml and must be run from the location of that file.
+docker compose build 
+
+#Use docker copmose to build images and run the containers.
+docker compose -f docker-compose-app-1.yml up -d --build
+
+#Use docker compose to push images to a repository. The file name should be docker-compose.yml and must be run from the location of that file.
+docker compose push
+
+--------------------------------------------------------------------------------------
+Health checks
+--------------------------------------------------------------------------------------
+#View container logs.
+docker logs <container-id>
+
+#Container file path.
+/var/lib/docker
+/var/lib/containerd
+
+#Check container resource usage.
+docker stats

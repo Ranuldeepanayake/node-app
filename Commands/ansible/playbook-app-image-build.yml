@@ -1,0 +1,29 @@
+---
+  - name: Build an image and run a container for a NodeJS based application.
+    hosts: docker-host-1
+    become: yes
+
+    vars: 
+   
+    tasks:
+     #- name: Copy the app source files.
+       #copy: 
+         #src: /root/node-app
+         #dest: /root
+
+     - name: Copy the dockerfile.
+       copy:
+         src: /root/ansible/dockerfile-node-app
+         dest: /root
+
+     - name: Change the docker build context.
+       command: "cd /root/"
+
+     - name: Execute the dockerfile.
+       command: "docker build -f /root/dockerfile-node-app -t node-app:latest ."
+
+     - name: Run a container.
+       command: "docker run --name='node-app-1' -d -t -p 80:80 --mount src=/root/node-app,target=/root/node-app,type=bind node-app:latest"
+
+     - name: Start the application inside the container.
+       command: docker exec -i node-app-1  pm2 start server.js --watch

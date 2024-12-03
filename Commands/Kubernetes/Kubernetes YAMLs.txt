@@ -1,0 +1,89 @@
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: replicaset
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: my-app
+  template:
+    metadata:
+      labels:
+        app: my-app
+    spec:
+      containers:
+      - name: my-container
+        image: httpd
+		
+		
+---
+ apiVersion: v1
+ kind: Pod
+ metadata:
+   name: rss-site
+   labels:
+     app: web
+ spec:
+   containers:
+     - name: front-end
+       image: nginx
+       ports:
+         - containerPort: 80
+		 
+		 
+		 
+LAMP deployment.
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: phpmyadmin-deployment
+  labels:
+    app: phpmyadmin
+
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: phpmyadmin
+  template:
+    metadata:
+      labels:
+        app: phpmyadmin
+    spec:
+      containers:
+       - name: mysql-1
+         image: mysql:latest
+         ports:
+           - containerPort: 3306
+         env:
+           - name: MYSQL_ROOT_PASSWORD
+             value: root@123
+
+       - name: phpmyadmin-1
+         image: phpmyadmin/phpmyadmin
+         ports:
+           - containerPort: 80
+         env:
+           - name: PMA_HOST
+             value: 127.0.0.1
+           - name: PMA_PORT
+             value: "3306"
+           - name: MYSQL_ROOT_PASSWORD
+             value: root@123
+			 
+LAMP deployment node port service.
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: nodeport-2
+spec:
+  type: NodePort
+  selector:
+    app: phpmyadmin
+  ports:
+  - nodePort: 31000
+    port: 80
+    targetPort: 80

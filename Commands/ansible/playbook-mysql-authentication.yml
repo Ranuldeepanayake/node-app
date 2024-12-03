@@ -1,0 +1,15 @@
+---
+  - name: Execute a script on a mysql container.
+    hosts: docker-host-1
+    become: yes
+
+    vars: 
+   
+    tasks:
+     - name: Copy the script into the host
+       copy:
+         src: /root/ansible/mysql-authentication.sql
+         dest: /root
+
+     - name: Execute the script in the container.
+       command: "docker exec -i  mysql-1 bash -c exec mysql -u root -proot@123 < /root/mysql-authentication.sql"

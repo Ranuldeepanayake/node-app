@@ -1,0 +1,67 @@
+#initialize a repo.
+git init
+
+git branch -l
+
+#Create a new branch. 
+git branch <name>
+
+#Stage changed files to be commited.
+git add .
+
+#Commit changes.
+git commit -m <message>
+
+#Show the remote source.
+git remote -v
+
+git remote add node-app https://github.com/Ranuldeepanayake/node-app.git
+
+ssh -T git@github.com
+
+#Git personal access token.
+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
+
+#Change the working branch.
+git checkout <branch>
+
+#Show the commit log.
+git log
+
+#Show a specific commit in detail.
+git show <commit hash>
+
+------------------------------------------------------------------------------------------
+Recovery
+------------------------------------------------------------------------------------------
+#Reverts the changes up to the specified commit, changes the files and creates a new commit.
+#The commit history is preserved.
+git revert <commit hash>
+
+#Go back one commit without changes to files.
+git reset --soft HEAD~1
+
+#Go back to the specified commit without changes to files.
+git reset --soft <commit hash>
+
+#Go back one commit. Will change files.
+git reset --hard HEAD~1
+
+#Go back to the specified commit. Will change files.
+git reset --hard <commit hash>
+
+#Modify commits interactively. The below command modifies the last commit.
+git rebase -i HEAD~1
+
+------------------------------------------------------------------------------------------
+Configuration
+------------------------------------------------------------------------------------------
+#Enable caching crdentials.
+git config --global credential.helper cache
+
+#Set the cached credential validity period.
+git config --global credential.helper 'cache --timeout=84600'
+
+#Settings if HTTPS based pulling times out.
+git config --global http.version HTTP/1.1
+git config --global http.postBuffer 157286400

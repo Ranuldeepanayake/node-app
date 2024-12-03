@@ -1,0 +1,18 @@
+https://<access token>@github.com/<userName>/<repository>.git
+
+#Git repositiory link with credentials
+https://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@github.com/Ranuldeepanayake/node-app.git
+
+#Webhook relay provider.
+https://webhookrelay.com/
+
+#Webhook relay key
+relay login -k 8e55a79a-a547-49ab-81ab-1ce7a5678a6d -s zqDReHWb2g55
+
+#Webhook relay command
+relay forward --bucket gitlab-jenkins http://localhost:8080/github-webhook/
+
+#Multibranch webhook URL.
+relay forward --bucket gitlab-jenkins http://localhost:8080/multibranch-webhook-trigger/invoke?token=my-token
+
+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

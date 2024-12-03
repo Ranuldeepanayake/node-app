@@ -1,0 +1,12 @@
+#BIOS
+F2
+
+#Life cycle controller
+F10
+
+#Boot menu
+F11
+
+#Network boot
+F12
+

@@ -1,0 +1,40 @@
+#Install express
+npm install express --save
+npm install body-parser --save
+
+#Run PM2
+pm2 start server.js --watch
+
+#Monitor logs with PM2
+pm2 monit
+
+node <file-name>
+
+#Install modules defined in package.json.
+npm install
+
+#Run scripts defined in package.json.
+npm run <script-name>
+
+#Rebuild module cache.
+npm rebuild
+
+#Verify module cache.
+npm cache verify
+
+#Clean module cache.
+npm cache clean --force
+
+#Sample package.json
+{
+  "name": "test-project",
+  "version": "1.0.0",
+  "description": "A Vue.js project",
+  "main": "src/main.js",
+  
+  "author": {
+    "name": "Joe",
+    "email": "joe@whatever.com",
+    "url": "https://whatever.com"
+  }
+}

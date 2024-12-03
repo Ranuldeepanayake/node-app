@@ -1,0 +1,36 @@
+#Get filespace info for a VM backup.
+q fi * *lo3wplogtapp01 f=d
+
+#Get filespace info for a file backup.
+q fi **libraryvmprodview03 f=d.
+
+#Get the running processes on a TSM server.
+query process
+
+#Cancel a process.
+cancel process <process number>
+
+#Check the session of the logged in user.
+query session
+
+#Change the password of the logged in user (does not work if the password is already expired)
+update admin <username> <password>
+
+#Check the manifest DB backup of a TSM server
+q db f=d 
+
+#Rename the filespace of a VM backup.
+rename filespace <node_name> <fsid> \\VMFULL-<new name> nametype=fsid force=yes
+
+#Rename the filespace of a file backup.
+rename filespace <node_name> <fsid> /<new name> nametype=fsid force=yes
+
+#Log locations in a data mover (read them when backups fail).
+C:\Program Files\Tivoli\TSM\baclient
+
+#Take a full backup manually from within a data mover.
+dsmc backup vm 'lo3wpcorapp017' -mode=iffull -vmbackuptype=fullvm -asnode=LO3TSM4VE -optfile=dsm.LO3WPTSM4VE018_DM03.opt
+
+#Take a full backup manually with an updated GUID from within a data mover.
+dsmc backup vm 'lo3wplogtapp01' -mode=iffull -vmbackuptype=fullvm -VMBACKUPUPDATEGUID -asnode=LO3TSM4VE -optfile=dsm.ICDWPSPVEAPP08_DM04_02.opt
+

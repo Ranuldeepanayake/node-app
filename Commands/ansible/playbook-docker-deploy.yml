@@ -1,0 +1,25 @@
+---
+  - name: Create two docker containers on CentOS 8
+    hosts: docker-host-1
+    become: yes
+
+    vars: 
+   
+    tasks:
+     - name: Update the DNF cache
+       command: "dnf makecache"
+
+     - name: Install docker utils
+       command: "yum install -y yum-utils"
+
+     - name: Add the Docker repo
+       command: "yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo"
+
+     - name: Install docker and other dependencies.
+       command: "yum install -y docker-ce docker-ce-cli containerd.io"
+
+     - name: Start the docker service
+       command: "systemctl start docker"
+
+     - name:
+       command: "docker --version"

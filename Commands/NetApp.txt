@@ -1,0 +1,66 @@
+#Show failed drives
+storage disk show -broken
+
+#Show a particular drive
+storage disk show -disk 2.0.4
+
+#Show the health of the two controllers
+system health status show
+
+#Show the health of disk shelves
+storage shelf show
+
+#Show the fan status of a particular shelf
+storage shelf show -shelf 2.0 -cooling
+
+#Show network port status
+network port show
+
+#Show network port status of a specific node
+network port show -node waldev01-05 -port e0a
+
+#Flash drive LEDs
+https://docs.netapp.com/us-en/ontap-cli-93/storage-disk-set-led.html#examples
+storage disk set-led -action on -disk 2.14.1 -duration 60
+
+#Invoke auto-support in NetApp Clustered OntApp 8.3 (invoke for both nodes)
+autosupport invoke icdupnasxfil01-01 all
+autosupport invoke -node * -type all
+
+#Show storage faults
+system node run -node icdupnasxfil01-01 -command storage show fault
+
+#Show all sensors of a service processor 
+system node run -node icdupnasxfil01-01 -command environment chassis
+
+#Enter the console
+system console
+
+#Show processes in CDOT 9
+set diag
+spm
+show
+
+#Show CPU utilization
+set diag
+node run -node <node_name> -command sysstat -M 1
+node run -node <node_name> -command sysstat
+
+#Show per volume latency
+set diag
+qos statistics volume latency show -iterations 100
+
+###
+set -privilege admin > storage disk show -container-type unassigned > storage disk assign <disk ID> > storage disk zerospares
+
+#Check cluster health 
+cluster show
+
+#Show snapshots
+volume snapshot show -volume vol1
+
+
+volume snapshot delete -vserver nfswalprod01 -volume ora_store -snapshot monthly_1st.2023-02-01_0010
+
+#Expand a volume
+https://docs.netapp.com/us-en/ontap-cli-96/volume-expand.html#description

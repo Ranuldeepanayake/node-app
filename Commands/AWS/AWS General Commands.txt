@@ -1,0 +1,58 @@
+#Describe all EC2 instances
+aws ec2 describe-instances --profile ranul
+
+#Attach an internet gateway to a VPC.
+aws ec2 attach-internet-gateway --vpc-id "vpc-040b710cc2ce4379b" --internet-gateway-id "igw-0b3f215f4d45bd619" --region ap-southeast-1
+
+#List S3 buckets.
+aws s3api list-buckets
+
+#Upload a file to S3.
+aws s3api put-object --bucket <bucket name> --key <destination file> --body <source file>
+
+#RDS endpoint.
+sep.cri4y6giwp01.ap-southeast-1.rds.amazonaws.com
+
+{
+  "MaxCount": 1,
+  "MinCount": 1,
+  "ImageId": "ami-0039c366b582b8bb9",
+  "InstanceType": "t2.micro",
+  "KeyName": "ec2-key-1-windows",
+  "NetworkInterfaces": [
+    {
+      "SubnetId": "subnet-0b8c80b7a8ff71707",
+      "DeleteOnTermination": true,
+      "AssociatePublicIpAddress": true,
+      "DeviceIndex": 0,
+      "Groups": [
+        "sg-0a20577c3ffc1fc0c"
+      ]
+    }
+  ],
+  "LaunchTemplate": {
+    "LaunchTemplateId": "lt-07653445de804e671",
+    "Version": "1"
+  },
+  "TagSpecifications": [
+    {
+      "ResourceType": "instance",
+      "Tags": [
+        {
+          "Key": "resource-type",
+          "Value": "ec2"
+        },
+        {
+          "Key": "os",
+          "Value": "windows"
+        }
+      ]
+    }
+  ],
+  "MetadataOptions": {
+    "HttpEndpoint": "enabled",
+    "HttpPutResponseHopLimit": 2,
+    "HttpTokens": "required"
+  }
+}
+

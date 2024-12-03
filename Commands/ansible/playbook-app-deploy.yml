@@ -1,0 +1,19 @@
+---
+  - name: Create an evironment for a dockerized test web application.
+    hosts: docker-host-1
+    become: yes
+
+    vars: 
+   
+    tasks:
+     - name: Pull the mysql image.
+       command: "docker pull mysql:latest"
+
+     - name: Pull the php-mysql image.
+       command: "docker pull php"
+
+     - name: Create a container out of the mysql image.
+       command: "docker run --detach --publish 3306:3306 --name=mysql-1 --env MYSQL_ROOT_PASSWORD=root@123 mysql/mysql-server:latest"
+
+     - name: Create a container out of the php-mysql image.
+       command: "docker run --name=phpmyadmin-1 --detach --publish 8080:80 --env PMA_HOST=mysql-1 phpmyadmin/phpmyadmin:latest"

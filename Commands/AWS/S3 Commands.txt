@@ -1,0 +1,26 @@
+aws s3 mb s3://bucket-general-1 --region ap-southeast-1 --output json
+
+aws s3 ls s3://bucket-general-1 --recursive
+
+aws s3 ls --summarize --human-readable --recursive s3://<bucket-name>/
+
+aws s3 rm s3://bucket-general-1/ATMEL-328P-Bootloader.bin
+
+aws s3 rm s3://bucket-general-1/s3-app --recursive
+
+aws s3 rm s3://bucket-general-1 --recursive --exclude "s3*" --include "2024-11-16*"
+
+aws s3 rb s3://bucket-general-1
+
+aws s3 cp ./s3-static-app-1 s3://bucket-general-1/s3-static-app-1 --recursive
+
+aws s3 cp s3://gfg-example/1.here-there-and-everywhere.pdf C:\Users\ravis\Desktop
+
+https://bucket-general-1.s3.dualstack.ap-southeast-1.amazonaws.com/s3-static-app-1/index.html
+
+https://bucket-general-1.s3.ap-southeast-1.amazonaws.com/s3-static-app-1/index.html
+
+aws configure set default.s3.use_dualstack_endpoint true
+aws configure set default.s3.addressing_style virtual
+
+aws s3api list-objects --bucket bucketname --endpoint-url https://s3.dualstack.aws-region.amazonaws.com

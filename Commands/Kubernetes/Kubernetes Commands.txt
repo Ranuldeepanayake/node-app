@@ -1,0 +1,183 @@
+#Check cluster node status.
+kubectl get nodes
+kubectl get nodes -o wide
+
+#Apply kubernetes yaml.
+kubectl apply -f <file>
+
+#Kubectl get commands.
+kubectl get all
+kubectl get deployments
+kubectl get replicasets
+kubectl get pods
+kubectl get svc
+
+#Test deployment.
+kubectl create deployment nginx --image=nginx
+
+#Kubectl delete commands.
+kubectl delete deployment nginx
+kubectl delete svc nginx
+
+#Enter the shell of a container in kubernetes.
+kubectl exec <POD_NAME> --container <CONTAINER_NAME> -it -- /bin/bash
+kubectl exec -n <NAMESPACE> <POD_NAME> --container <CONTAINER_NAME> -it -- /bin/bash
+
+#Force delete a pod.
+kubectl delete pods --force --grace-period=0 nodejs-s3-deployment-86fd9c64f-2lvmh
+
+#Show pods and its labels.
+kubectl get pods --show-labels
+
+--------------------------------------------------------------------------------------
+Deployments
+--------------------------------------------------------------------------------------
+#Update the image of a container running in a pod.
+kubectl set image deployment/nginx-deployment nginx=private:nginx
+
+#Restore back to the previous image.
+kubectl rollout undo deployment/nginx-deployment
+
+#Get the status of a deployment update.
+kubectl rollout status deployment/nginx-deployment
+
+#Restart a deployment
+kubectl rollout restart deployment/nginx-deployment
+
+#Scale out a deployment.
+kubectl scale deployment/nginx-deployment --replicas=10
+
+#Scale out a deployment based on the pod CPU utilization.
+kubectl autoscale deployment/nginx-deployment --min=10 --max=15 --cpu-percent=80
+
+#Prometheus Grafana credentials
+admin/sy2zGHIMAGwjiX5toITPzwQ6FOLh184fopZOaXOw
+
+--------------------------------------------------------------------------------------
+DNS
+--------------------------------------------------------------------------------------
+#FQDN of a service as seen by a pod.
+<service-name>.<namespace-name>.svc.cluster.local
+cluster-application-service.default.svc.cluster.local
+
+--------------------------------------------------------------------------------------
+Helm charts
+--------------------------------------------------------------------------------------
+#Show Helm chart
+helm show chart <chart name>
+helm show chart nodejs-s3/
+
+#Show deployed helm charts.
+helm list --namespace <namespace_name>
+
+#Uninstall helm deployment.
+helm uninstall <deployment name> --namespace <namespace_name>
+
+#Uninstall helm deployment and delete kuberenetes resources.
+helm delete <deployment name> --purge
+
+#Install a chart.
+helm install helm-nodejs-s3 ./nodejs-s3/
+
+#Do a dry run install.
+helm install --debug --dry-run goodly-guppy ./mychart
+helm install helm-nodejs-s3 ./nodejs-s3/ --dry-run
+
+--------------------------------------------------------------------------------------
+Health checks
+--------------------------------------------------------------------------------------
+#Check the API server status.
+curl -k https://localhost:6443/livez?verbose
+
+#Check system component namespace.
+kubectl get all -n kube-system
+
+#Check resource usage.
+kubectl top
+
+#Check kubernetes logs.
+journalctl -u kubelet
+journalctl -u kubelet | tail -200
+journalctl -xeu kubelet
+
+--------------------------------------------------------------------------------------
+Cluster configuration
+--------------------------------------------------------------------------------------
+#Initialize the cluster master
+kubeadm init
+kubeadm init --pod-network-cidr=[server-ip]/16
+
+#Destroy the cluster master
+kubeadm reset
+
+remove /etc/cni/net.d
+
+#Post initialization commands to copy the config file.
+mkdir -p $HOME/.kube
+sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+sudo chown $(id -u):$(id -g) $HOME/.kube/config
+
+#Alternatively, if you are the root user, you can run:
+export KUBECONFIG=/etc/kubernetes/admin.conf
+
+kubectl create -f https://docs.projectcalico.org/manifests/tigera-operator.yaml
+
+wget https://docs.projectcalico.org/manifests/custom-resources.yaml
+
+kubectl get pods -n calico-system
+
+#Create a new token.
+kubeadm token create
+
+#List token.
+kubeadm token list
+
+kubectl get configmap cluster-info --namespace=kube-public -o json
+kubectl -n kube-system get cm kubeadm-config -oyaml
+
+kubeadm certs check-expiration
+/etc/kubernetes/pki
+/var/lib/kubelet/pki
+
+#Renew certificates. Should be done on all master nodes.
+kubeadm certs renew all
+
+#Enter a node into maintenance.
+kubectl drain <node-to-drain> --ignore-daemonsets
+
+#Release a node from maintenance
+kubectl uncordon <node-to-uncordon>
+
+#Repel pods from nodes.
+kubectl taint nodes --all node-role.kubernetes.io/control-plane-
+
+#Label nodes
+kubectl label nodes <node_name> <key>=<value>
+
+--------------------------------------------------------------------------------------
+Security
+--------------------------------------------------------------------------------------
+#Create a Kubernetes secret after an authenticated docker private registry has been logged in to for the first time.
+kubectl create secret generic docker-registry --from-file=.dockerconfigjson=/home/ranul/.docker/config.json --type=kubernetes.io/dockerconfigjson
+
+kubectl create token <object> --duration <minutes>m
+
+kubectl get namespaces
+
+kubectl create serviceaccount <account name>
+Create a secret for the account which does not expire as below,
+https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/#manually-create-a-long-lived-api-token-for-a-serviceaccount
+
+kubectl get serviceaccount
+
+kubectl get secret
+
+kubectl get roles
+
+kubectl get clusterroles
+
+
+
+
+
+

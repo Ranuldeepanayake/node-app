@@ -1,0 +1,75 @@
+#Get the fault list of an array without a security file.
+./NaviSECCli.exe -user VNXReport -password '44oprWe#' -scope 0 -h 10.163.2.26 faults -list
+./NaviSECCli.exe -user operator -password 'Call$Du2y' -scope 0 -h 10.161.98.34 faults -list
+
+#Get the fault list of an array with a security file.
+NaviSECCli.exe -h 10.163.2.27 -secfilepath C:\Users\UDEEPRA
+
+#Get the fault list of an array with the default security file.
+./NaviSECCli.exe -h 10.161.98.34 faults -list
+
+#Get a CRU list
+./NaviSECCli.exe -user VNXReport -password '44oprWe#' -scope 0 -h 10.163.2.26 getcrus
+
+#Get information on disks
+./NaviSECCli.exe -user VNXReport -password '44oprWe#' -scope 0 -h 10.163.2.26 getdisk -state -serial
+
+./NaviSECCli.exe -user VNXReport -password '44oprWe#' -scope 0 -h 10.162.34.24 getdisk -all
+
+---------------------------------------------------------------------------------------------------------------
+Security file
+---------------------------------------------------------------------------------------------------------------
+#Add a user to the security file
+NaviSECCli.exe -AddUserSecurity -User operator -password 'Call$Du2y' -h 10.161.98.34 -scope 0
+
+
+---------------------------------------------------------------------------------------------------------------
+SP collects
+---------------------------------------------------------------------------------------------------------------
+https://wintelguy.com/2011/20110528_navicmd.html
+https://www.dell.com/support/kbdoc/en-us/000019532/vnx-how-to-gather-sp-collects-using-cli-only-user-correctable
+
+#Generate SP collects
+NaviSECCli.exe -h 10.161.98.34 spcollect
+./NaviSECCli.exe -user VNXReport -password '44oprWe#' -scope 0 -h 10.162.34.25 spcollect
+
+#List SP collect files stored on the arrays
+./NaviSECCli.exe -user VNXReport -password '44oprWe#' -scope 0 -h 10.162.66.25 managefiles -list
+
+#Retrieve SP collect files through a guided CLI menu (tested and working)
+./NaviSECCli.exe -user VNXReport -password '44oprWe#' -scope 0 -h 10.162.66.24 managefiles -retrieve
+naviseccli -user VNXReport -password "44oprWe#" -scope 0 -h 10.40.250.227 managefiles -retrieve
+
+#Retrieve SP collect file and store it on the local computer
+./NaviSECCli.exe -user VNXReport -password '44oprWe#' -scope 0 -h 10.162.66.25 managefiles -retrieve -file XXX_data.zip -path C:\Users\adeepra\Documents -o
+
+#Capture array's essential configuration data
+NaviSECCli.exe -h 10.161.98.34 arrayconfig -capture -output C:\Users\UDEEPRA\Downloads
+
+#NaviSECCli required ports
+https://www.dell.com/support/kbdoc/en-us/000102922/emc69147-what-tcp-and-udp-ports-does-a-clariion-or-vnx-array-use?lang=en
+
+
+
+#Temperature and fans
+./NaviSECCli.exe -user VNXReport -password '44oprWe#' -scope 0 -h 10.25.35.87 environment -list  -all
+
+./NaviSECCli.exe -user VNXReport -password '44oprWe#' -scope 0 -h 10.25.246.125 environment -list  -all
+
+naviseccli -h <IP address of SP A/B> environment -list -array [-power] [-present]|[-average] -enclosure [bus_enc|spe] [-power|-intemp [f|c]] [-present]|[-average] -sps [-sp a|b] [-power] [-present]|[-average] -all
+
+nas_environment -info { -system [-present|-average] -dme [enclosure_id] [-intemp [f|c]|-power] [-present]|[-average]  -array [-present|-average] -shelf {<shelf_id>|<-all>} [-intemp [f|c]|-power] -present|-average]  -battery [a|b] [-present|-average]  -spe [-intemp [f|c]|-power] [-present|-average] -all }
+       
+	   
+#Tresspass LUN to the original owner (command has to be entered from the restored SP)	   
+naviseccli -h arraysp trespass mine
+
+-----------------------------------------------------------------------------------------------------------------
+Data Domain
+-----------------------------------------------------------------------------------------------------------------
+alerts show current
+disk show state
+disk show hardware
+enclosure show summary
+
+tUtAq24A

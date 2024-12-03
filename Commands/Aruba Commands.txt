@@ -1,0 +1,11 @@
+disable layer3 vlan
+
+vlan 100
+no ip routing
+
+interface 1/1/1-1/1/2
+
+Active gateway IP
+Aruba VSX
+
+Don't set an IP address to a VLAN interface if not routing. For the management source address, there is a specific command.

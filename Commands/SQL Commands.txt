@@ -1,0 +1,39 @@
+#Creating a view
+create view view_1 as
+select first_name, last_name 
+from user
+
+#Inner join
+SELECT * from user inner join supplier on user.user_id = supplier.supplier_id  
+
+The above is the same as,
+SELECT * from user, supplier where user.user_id = supplier.supplier_id 
+
+#Union
+select user.user_id from user UNION SELECT supplier.supplier_id from supplier 
+
+The above only shows distint values though. To show all, use,
+select user.user_id from user UNION ALL SELECT supplier.supplier_id from supplier 
+
+#Alias (rename columns in the output)
+select first_name as 'First Name', last_name as 'Last Name' from user
+
+#IN (provide multiple values to the where clause
+select user.first_name from user where user.city in (select user.city from user)
+
+or
+
+select user.first_name from user where user.city in ('Rajagiriya', 'Kottawa')
+
+#Left outer join
+select * from user left OUTER JOIN supplier on user.user_id= supplier.supplier_id
+
+#Right outer join
+select * from user right OUTER JOIN supplier on user.user_id= supplier.supplier_id
+
+#Full outer join
+select * from user full outer join supplier on user.user_id= supplier.supplier_id
+
+or using a union of a left outer join and a right outer join
+
+(select * from user left outer join supplier on user.user_id= supplier.supplier_id) UNION (SELECT * from user RIGHT OUTER JOIN supplier on user.user_id= supplier.supplier_id)

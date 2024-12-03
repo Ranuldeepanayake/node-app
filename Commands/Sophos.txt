@@ -1,0 +1,16 @@
+Sophos Links
+
+#XG firewall virtual appliance
+https://download.sophos.com/network/SophosFirewall/installers/VI-18.5.1_MR-1.VMW-326.zip
+
+#CSR (Certificate Signing Request) based certificate installation.
+
+1. Create a Certificate Authority in AD.
+2. Download the AD CA certificate (from the properties menu of the AD CA console).
+3. Import the AD CA certificate into the firewall as a trusted CA.
+4. Generate a CSR from the firewall.
+5. Download the CSR file (.req).
+6. Upload the the CSR file (.req) into the AD filesystem.
+7. Create a signed certificate through the AD CS service with the following command,
+	certreq -submit -attrib "CertificateTemplate:SubCA" input_csr_file.req output_certificate_file.cer
+8. Import the created certificate to the Firewall's coresponding CSR.

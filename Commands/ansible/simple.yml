@@ -1,0 +1,10 @@
+---
+  - name: Install docker on CentOS 8
+    hosts: docker-host-1
+    become: yes
+
+    vars: 
+   
+    tasks:
+     - name: Update the DNF cache
+       command: "dnf makecache"

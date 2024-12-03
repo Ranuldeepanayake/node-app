@@ -1,0 +1,23 @@
+#Initialize a terraform folder.
+terraform init
+
+#Format a configuration file.
+terraform fmt
+
+#Validate a configuration file.
+terraform validate
+
+#Execute a terraform configuration.
+terraform apply
+
+#Show the state of an object.
+terraform show
+
+#Show output parameters post creation.
+terraform output
+
+terraform plan -var "ami=test" -var "type=t2.nano" -var "tags={\"name\":\"My Virtual Machine\",\"env\":\"Dev\"}"
+
+terraform plan -var "associate_public_ip_address=false" -var "tags={\"name\"=\"server-1\"}" -out plan.tf
+
+terraform apply "plan.tf"
