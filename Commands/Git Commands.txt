@@ -19,9 +19,6 @@ git remote add node-app https://github.com/Ranuldeepanayake/node-app.git
 
 ssh -T git@github.com
 
-#Git personal access token.
-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
-
 #Change the working branch.
 git checkout <branch>
 
