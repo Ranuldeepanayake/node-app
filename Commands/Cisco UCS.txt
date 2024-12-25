@@ -1,0 +1,11 @@
+#Show UCS manager user sessions
+show user-sessions <local|remote>
+
+#Delete UCS manager user sessions
+scope security 
+show user-session <local|remote> 
+delete user-session <local|remote> <user> <session-id>
+commit-buffer
+
+#Enter the shell in a Nexus switch
+connect nxos

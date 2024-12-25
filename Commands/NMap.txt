@@ -1,0 +1,10 @@
+#Check if a UDP port is open or not.
+sudo nmap -sU 10.25.35.101 -p 161
+
+sudo nmap -sT icdupvuexesx01m.dcsutil.dcsroot.local -p 443
+
+#OS scanning
+sudo nmap -sT icdupvuexesx01m.dcsutil.dcsroot.local -p 443 -O
+
+#Check if a TCP port range is open or not.
+sudo nmap –sT 192.168.1.1 –p 1-1023 

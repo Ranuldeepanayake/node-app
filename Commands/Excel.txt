@@ -1,0 +1,6 @@
+#Extract text before the first space in a string.
+=LEFT(A1, FIND(" ",A1) -1)
+
+#Extract text after the first space in a string.
+https://excelexercises.com/excel-functions/extract-last-word.html
+=RIGHT(A1, LEN(A1)-FIND(" ", A1))

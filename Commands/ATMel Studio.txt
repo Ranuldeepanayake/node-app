@@ -1,0 +1,5 @@
+C:\Program Files (x86)\AVRDUDESS\avrdude.exe
+-p m328p -c usbtiny -v -U flash:w:$(TargetPath):a
+
+#Script for custom programming tool.
+-p m328p -c usbtiny -p m328p -P usb -v -U flash:w:"C:\Users\ranul\Downloads\328pfirmware.hex":a

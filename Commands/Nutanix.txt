@@ -1,0 +1,156 @@
+https://next.nutanix.com/how-it-works-22/cluster-management-useful-commands-40052
+https://portal.nutanix.com/page/documents/kbs/details?targetId=kA07V000000LVVSSA4
+
+
+---------------------------------------------------------------------
+Cluster Information
+---------------------------------------------------------------------
+#Get cluster summary.
+ncli cluster info
+
+#Check multi-cluster info.
+ncli multicluster get-cluster-state
+
+#Advanced commands
+ncli
+
+---------------------------------------------------------------------
+Cluster Services
+---------------------------------------------------------------------
+#Get the prism element leader.
+curl http://0:2019/prism/leader && echo
+
+#Get the leader CVM of a service.
+panacea_cli show_leaders | grep -i prism
+
+#Show the leader of each cluster service.
+panacea_cli show_leaders
+
+#Show all the services in all CVMs of the cluster.
+cluster status
+cs
+
+#Show a specific service in all CVMs of the cluster.
+cluster service | grep -i prism
+
+#start all cluster services.
+cluster start
+
+watch -d "cluster start"
+
+#Stop prism element services
+genesis stop prism
+
+#Get the Zeus leader
+cs | grep -v UP
+
+#Restarting cluster services.
+https://one-confluence.pearson.com/pages/viewpage.action?pageId=422508861
+
+
+---------------------------------------------------------------------
+CVM Commands
+---------------------------------------------------------------------
+#Get the CVM ring status.
+nodetool -h0 ring
+
+#Get the local CVM information.
+nodetool -h0 info
+
+#Join the CVM ring.
+nodetool -h0 join
+
+#Check leadership
+nodetool -h0 leadership
+
+#Show CVM IDs.
+svmips -d
+
+#Show NTP.
+ncli cluster get-ntp-servers
+
+#Get the date/time of all CVMs.
+allssh date
+
+hostssh
+
+#CVM enter maintenance mode (enter the command from any other CVM).
+ncli host edit id=<CVM-ID> enable-maintenance-mode=true
+
+#CVM exit maintenance mode (enter the command from any other CVM).
+ncli host edit id=<CVM-ID> enable-maintenance-mode=fasle
+
+---------------------------------------------------------------------
+Cluster health checks
+---------------------------------------------------------------------
+#Health check
+ncc health_checks 
+
+#Run a health check.
+nutanix@cvm$ ncc health_checks run_all
+
+#System checks
+system_checks 
+
+#Health check for the cluster virtual IP.
+ncc health_checks system_checks virtual_ip_check
+
+#Run a health check specifically on NICs.
+https://portal.nutanix.com/page/documents/kbs/details?targetId=kA032000000TWK2CAO
+nutanix@cvm$ ncc health_checks network_checks mellanox_nic_driver_version_check
+
+#Processor capability check
+cat /proc/cpuinfo | grep avx
+
+#Processor capability check
+ncc cpu_avx_check 
+
+#Remote tunnel start.
+ncli cluster start-remote-support
+
+#Remote tunnel status.
+ncli cluster get-remote-support-status
+
+#Remote tunnel stop.
+ncli cluster stop-remote-support
+
+#Prism Element Upgrade order
+Component	Version	  Status
+NCC         4.6.3.1	  Done
+Foundation  5.3.4.1	  Done
+AOS         6.5.2.5	  Done
+BIOS        R1.16.0	  Done
+iRMC        3.47P	  Done
+SATA Drive  HXT7A04Q  Done
+
+
+----------------------------------------------------------------------
+AHV
+----------------------------------------------------------------------
+#Shutdown the host
+https://portal.nutanix.com/page/documents/details?targetId=Hypervisor-Boot-Drive-Replacement-Platform-RAID-HPE-Proliant-DX4200-24LFF:ahv-node-shutdown-ahv-t-dx4200-24lff.html
+https://hyperhci.com/2019/06/24/how-to-shutdown-nutanix-native-acropolis-hypervisor-ahv-and-cvm/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 

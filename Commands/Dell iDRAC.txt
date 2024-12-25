@@ -1,0 +1,155 @@
+#Find an unknown iDRAC IP address
+For icdutcoreesx01m.ic.ncs.com
+https://icdutcoreesx01-con.ic.ncs.com/login.html
+
+# Kill all idrac user sessions
+racadm closessn -a
+
+# Kill the session of a particular user
+racadm closessn -u <username>
+
+#BIOS menu
+F2
+
+#Lifecycle controller menu
+F10
+
+#Boot options
+F11
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+bo3upvrailmgt03:/home/mystic # python vxtoolv7
+
+===============================================================================
+
+VxRail Manager version:  7.0.400
+
+Tool version: %s. 7.0.1
+
+===============================================================================
+
+ 
+
+ 
+
+What would u like to do?
+
+ 
+
+  1)  Enable ssh service on ESXi host(s)     11) Change VSAN rebuild timeout on ESXi host(s)
+
+  2)  Disable ssh service on ESXi host(s)    12) TBD
+
+  3)  Run any ESXi host(s) command           13) TBD
+
+  4)  Retrieve current ESXi host logs        14) TBD
+
+  5)  Push a file from VxRail mgr. to ESXi   15) TBD
+
+  6)  TBD                                    16) TBD
+
+  7)  Grab an SSH session to an ESXi host    17) TBD
+
+  8)  Print VxRail mgr. psql DB tables       18) TBD
+
+  9)  VSAN health commands                   19) TBD
+
+  10) PTagent and BMC (iDRAC) commands       q)  Exit
+
+ 
+
+===============================================================================
+
+Select an option[1-19,q(quit),m(show menu)]: 10
+
+===============================================================================
+
+ 
+
+What would u like to do?
+
+ 
+
+        1)  /etc/init.d/dcism-netmon-watchdog status on ESXi host(s)
+
+        2)  /etc/init.d/dcism-netmon-watchdog restart on ESXi host(s)
+
+        3)  /etc/init.d/DellPTAgent status on ESXi host(s)
+
+        4)  /etc/init.d/DellPTAgent restart on ESXi host(s)
+
+        5)  esxcli network ip connection list | grep LISTEN | grep Dell on ESXi host(s)
+
+        6)  ipmitool mc selftest to see if iDRAC is ready on ESXi host(s)
+
+        7)  ipmitool mc reset cold to restart iDRAC/BMC on ESXi host(s)
+
+        8)  ipmitool lan print to see assigned iDRAC/BMC on ESXi host(s)
+
+        9)  ipmitool sel list to get the sel log from ESXi host(s)
+
+        10) ipmitool sel list -v to get the verbose sel log from ESXi host(s)
+
+        11) ipmitool sel clear to clear the sel log from ESXi host(s)
+
+        12) ipmitool sensor list to get the sensor readout from ESXi host(s)
+
+        13) ipmitool delloem lan get active to get the iDRAC/BMC port config from ESXi host(s)
+
+        m)  Back to main menu
+
+        q)  Exit
+
+ 
+
+===============================================================================
+
+Select an option[1-8,q(quit),m(show main menu)]: 7
+
+===============================================================================
+
+Will be running: /opt/vxrail/tools/ipmitool mc reset cold
+
+ 
+
+Available hosts to run command:
+
+ - 0 : bo3uscoreesx035.pearsoncmg.com
+
+ - 1 : bo3uscoreesx034.pearsoncmg.com
+
+ - 2 : bo3uscoreesx031.pearsoncmg.com
+
+ - 3 : bo3uscoreesx037.pearsoncmg.com
+
+ - 4 : bo3uscoreesx032.pearsoncmg.com
+
+ - 5 : bo3uscoreesx033.pearsoncmg.com
+
+ - 6 : bo3uscoreesx038.pearsoncmg.com
+
+ - 7 : bo3uscoreesx036.pearsoncmg.com
+
+ 
+
+Enter the hostname or corresponding index nr of the host or hit enter for all hosts (q to exit):
+
+Starting to run remote command

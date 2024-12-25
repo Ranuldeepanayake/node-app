@@ -1,0 +1,47 @@
+----------------------------------------------------------
+Sample hosts file
+----------------------------------------------------------
+
+[vcenters]
+icd-test ansible_host=10.25.9.230 ansible_port=22 ansible_user=administrator@vsphere.local ansible_ssh_pass=1qaz2wsx
+
+
+----------------------------------------------------------
+Basic commands
+----------------------------------------------------------
+#SSH based ping
+ansible vcenters -i hosts -m ping 
+
+#Execute ad hoc command.
+ansible host-1 -i /root/ansible/hosts -a "reboot"
+
+#Copy files.
+ansible host-1 -i /root/ansible/hosts -m copy -a "src = /etc/yum.conf dest = /tmp/yum.conf"
+
+#Execute playbook.
+ansible-playbook playbook.yml 
+
+#Execute playbook with the sudo password prompt for 'become' tasks.
+ansible-playbook playbook-test.yml -i ../ansible/hosts.cfg -K
+
+#Hosts file which accepts key based log in.
+host-1 ansible_host=192.168.1.31 ansible_port=22 ansible_user=ranul ansible_ssh_private_key_file=/home/ranul/.ssh/id_rsa
+
+#Hosts file with an encrypted password.
+host-1 ansible_host=192.168.1.31 ansible_port=22 ansible_user=ranul ansible_ssh_pass={{password_1}}
+
+#Execute playbook with a referenced parameter in a vault.
+sudo ansible-playbook playbook-test.yml --ask-vault-pass --ask-become-pass
+
+#Execute SQL script in a container.
+#Note that the SQL script is on the docker host.
+- name: Execute the script in the container.
+       command: "docker exec -i  mysql-1 bash -c exec mysql -u root -proot@123 < /root/mysql-authentication.sql"
+	   
+	   password_1: !vault |
+          $ANSIBLE_VAULT;1.1;AES256
+          61613939396461646631373364626231383734666436343533313865343266656366373861373065
+          3564373065363266636665363633643538306263643963340a623839316535656338336330383337
+          34663164336332643535643632313661353465333138356162663439333932363435373939343366
+          3561663866383533660a386238383039323262373939363261626161356362306532633439393664
+          3566

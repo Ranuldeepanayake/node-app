@@ -1,0 +1,21 @@
+#Simple MVC web app 1
+https://spring.io/guides/gs/serving-web-content/
+
+#Simple MVC web app 2
+https://somindagamage.medium.com/writing-a-simple-web-application-with-spring-boot-135aece2f278
+
+#Simple local application
+https://spring.io/guides/gs/spring-boot/
+
+#Spring boot with VS Code
+https://code.visualstudio.com/docs/java/java-spring-boot
+
+#Unit Tests
+https://openliberty.io/guides/gradle-intro.html#running-the-tests
+
+#Maven and Gradle are build tools.
+pom.xml == build.gradle
+
+mvn clean install
+
+java -jar your_JarName.jar

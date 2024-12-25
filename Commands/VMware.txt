@@ -1,0 +1,335 @@
+---------------------------------------------------------------------------
+VM commands
+---------------------------------------------------------------------------
+#Common CLI functions
+https://kb.vmware.com/s/article/2012964
+
+#Power off VMs from the CLI
+https://kb.vmware.com/s/article/1004340
+
+#List all registered VMs
+vim-cmd vmsvc/getallvms
+esxcli vm process list
+
+#Check the status of registered VMs
+vim-cmd vmsvc/power.getstate <VMID>
+
+#Check pending tasks of a registered VM
+vim-cmd vmsvc/get.tasklist <VMID>
+
+#Check a pending task in detail
+vim-cmd vimsvc/task_info <task_id>
+
+#Cancel a pending VM task
+vim-cmd vimsvc/task_cancel <task_id>
+
+#Gracefully shutdown a VM
+vim-cmd vmsvc/power.shutdown <VMID>
+
+#Hard power off a VM
+vim-cmd vmsvc/power.off <VMID>
+
+#Power on a VM
+vim-cmd vmsvc/power.on <VMID>
+
+#Register a VM manually
+https://kb.vmware.com/s/article/1006160
+vim-cmd solo/registervm /vmfs/volumes/datastore_name/VM_directory/VM_name.vmx
+
+#Un-register a VM manually
+https://kb.vmware.com/s/article/1005051
+vim-cmd vmsvc/unregister <VMID>
+
+#Checking the vmware.log of a VM
+https://kb.vmware.com/s/article/1019064
+
+
+---------------------------------------------------------------------------
+Storage
+---------------------------------------------------------------------------
+https://kb.vmware.com/s/article/1008205
+https://kb.vmware.com/s/article/1027901
+
+#List storage adapters
+esxcfg-scsidevs -a
+esxcli storage core adapter list 
+
+#Scan for new VMFS data stores (does not scan new adapters)
+vmkfstools -V
+
+#Check the NFS service
+service nfs status
+esxcli system process list | grep NFS
+
+#Start the NFS service
+/etc/init.d/nfsgssd start
+
+#List NFS datastores
+esxcli storage nfs list
+esxcfg-nas -l
+
+#Mount an NFS 3 datastore
+https://blog.destephen.com/wordpress/?p=716
+https://swethakogatamblogs.wordpress.com/2017/02/01/mount-or-unmount-nasnfs-share-on-esxi/
+esxcli storage nfs add -H 10.25.9.207 -s /iso -v win-iso_fil07
+esxcfg-nas -a -o 10.25.9.207 -s /iso win-iso_fil07
+
+#Unmount an NFS datastore
+esxcli storage nfs remove -v NFS_Datastore_Name
+esxcli storage nfs remove –volume-name=<volume name>
+esxcfg-nas -d
+
+#Mount an NFS 4.1 datastore
+esxcli storage nfs41 add -H 10.25.9.207 -s /iso -v win-iso_fil07
+
+https://kb.vmware.com/s/article/1005948
+
+
+------------------------------------------------------------------------------------
+Networking
+------------------------------------------------------------------------------------
+https://www.dbappweb.com/2020/08/21/how-to-find-ip-address-and-route-details-in-vmware-esxi/
+https://www.oreilly.com/library/view/practical-web-penetration/9781788624039/a6bdd6aa-c564-4172-9c31-c15ae1a09bd4.xhtml
+https://ma.ttias.be/using-telnet-from-the-vmware-5-x-esxi-shell/
+
+#Get interface IP info
+esxcli network ip interface ipv4 get
+esxcfg-vmknic -l
+
+#Traceroute
+traceroute -i vmk0 <host>
+
+#Show the route table
+esxcli network ip route ipv4 list
+
+#Show the default route
+esxcfg-route
+
+#Telnet to a port
+nc -v <host> <port>
+curl -v telnet://target ip address:desired port number
+
+#Ping with a custom MTU
+vmkping -s <MTU size> -d <host>
+
+#List physical adapters
+esxcli network nic list
+
+#Get the physical state of a particular physical adapter
+esxcli network nic get -n vmnic4
+
+#Turn on a network link
+https://kb.vmware.com/s/article/2006074
+esxcli network nic up -n vmnic5
+
+#Turn off a network link
+esxcli network nic down -n vmnic5
+
+#Show the ARP table
+esxcli network ip neighbor list
+
+#Get packet captures from a host
+https://www.systemfixes.com/blog/2021/06/28/get-a-tcp-dump-of-a-vm-running-on-vmware-vsphere/
+https://kb.vmware.com/s/article/2051814
+https://docs.vmware.com/en/VMware-vSphere/7.0/com.vmware.vsphere.networking.doc/GUID-FAE2421D-7CBA-4ACB-96E1-6FF6E53F216D.html
+
+
+#Get the virtual port number to run the pcap against.
+net-stats -l | grep -e <mac address> -e PortNum
+
+#Start a packet capture for a VM in both directions (need to find the virtual port of the VM in question)
+pktcap-uw --dir 0 --switchport 67108919 -o /vmfs/volumes/d883f5e1-111033ca/pcap/lo1wtcoreutl07_inbnd.pcap & pktcap-uw --dir 1 --switchport 67108919 -o /vmfs/volumes/d883f5e1-111033ca/pcap/lo1wtcoreutl07_outbnd.pcap &
+
+#Kill the packet capture background process
+kill $(lsof |grep pktcap-uw |awk '{print $1}'| sort -u)
+
+#Modify a firewall rule.
+esxcli network firewall ruleset set -r CIMSLP -e 0
+
+
+----------------------------------------------------------------------------
+Core dumps and logs
+----------------------------------------------------------------------------
+#A core dump captures data during a purple screen
+https://kb.vmware.com/s/article/2004299
+
+#Show the selected core dump partition
+esxcli system coredump partition get
+
+#List all core dump capable partitions
+esxcli system coredump partition list
+
+#Log file locations
+https://kb.vmware.com/s/article/1021806
+
+
+-------------------------------------------------------------------------------
+ESXi Management agent restart
+-------------------------------------------------------------------------------
+https://kb.vmware.com/s/article/1003490
+
+#Check running services
+chkconfig -l
+
+#start a service
+/etc/init.d/slpd start
+
+#Stop a service
+/etc/init.d/slpd stop
+
+#Turn off a service (persistent through reboots)
+chkconfig slpd off
+
+#Restart the host daemon
+/etc/init.d/hostd restart
+
+#Restart the vcenter agent
+/etc/init.d/vpxa restart
+
+#Restart all services at once
+services.sh restart
+
+
+----------------------------------------------------------------------
+File locks
+----------------------------------------------------------------------
+
+
+---------------------------------------------------------------------------------
+Hardware
+---------------------------------------------------------------------------------
+#List hardware
+esxcli hardware pci list
+esxcfg-vswitch -l
+esxcfg-nics -l
+
+#List PCI devices
+lspci
+
+#Get the serial number
+esxcfg-info | less -i
+
+
+-----------------------------------------------------------------------------------
+Drivers
+-----------------------------------------------------------------------------------
+#List ViBs
+esxcli software vib list
+
+#Remove a VIB
+esxcli software vib remove -n scsi-megaraid-sas
+
+
+-----------------------------------------------------------------------------------
+VMware Tools
+-----------------------------------------------------------------------------------
+#Works with Windows server 2008 R2
+version 10.3.10
+
+
+-----------------------------------------------------------------------------------
+OVF Tool
+-----------------------------------------------------------------------------------
+#Export to OVA by directly connecting to the vcenter
+ovftool.exe vi://<vCenter IP>/SAP001_clone_INC6619327 "G:\INC6619327\SAP001_backup.ova"
+
+#Export to OVA using locally downloaded VMDKs
+ovftool.exe G:\INC6619327\SAP001_clone_INC6619327\SAP001_clone_INC6619327.vmx G:\INC6619327\SAP001_backup.ova
+
+
+-----------------------------------------------------------------------------------
+Memory dump creation
+-----------------------------------------------------------------------------------
+https://kb.vmware.com/s/article/2003941
+
+#Create a dump of a Windows VM
+vmss2core –W8 virtual_machine_name.vmss
+
+#Create a dump of a linux VM
+vmss2core -N virtual_machine_name.vmss
+
+
+-----------------------------------------------------------------------------------
+ESXi Console options
+-----------------------------------------------------------------------------------
+#Check system performance
+esxtop
+
+#Check VM performance
+esxtop > Shift + v 
+
+#Check disk performance
+esxtop > d
+
+#Shell from DCUI
+ALT+F1
+Type 'DCUI'
+
+#Boot from a different bootbank
+Shift + R (while booting)
+
+#Override CPU incompatibility when booting
+Shift + O (while booting)
+allowLegacyCPU=true
+
+
+-------------------------------------------------------------------------------------
+Authentication
+-------------------------------------------------------------------------------------
+#Crack the ESXi root password
+https://bhanuwriter.com/reset-forgotten-vmware-esxi-6-5-root-password/
+
+
+-------------------------------------------------------------------------------------
+vCenter
+-------------------------------------------------------------------------------------
+###In vCenter advanced settings to enable the VCLS after upgrading to ESXi 7.0
+config.vcls.clusters.domain-c(number).enabled
+
+#Check vcenter services
+https://kb.vmware.com/s/article/2109881
+
+#Show the status of services.
+service-control --status
+
+#Start a specific service.
+service-control --start servicename
+
+#Start all services.
+service-control --start --all
+
+#Stop all services.
+service-control --stop --all
+
+#Get the partner vcenter ID.
+https://knowitlikepro.com/vcenter-upgrade-error-the-replication-partner-provided-is-not-part-of-topology/
+
+#Get the partner vCenter ID (if the hostname is not identical to the PNID then KB2130599 may be useful).
+/usr/lib/vmware-vmafd/bin/vmafd-cli get-pnid --server-name localhost
+Output: ABCD-VC2P.i.abcd.com
+
+#Remove stale PSC/linked vCenter entries
+https://kb.vmware.com/s/article/2127057
+https://cloud-duo.com/2021/03/resolving-stale-psc-entries-from-your-vsphere-environment/
+
+#Show partner vCenters.
+./vdcrepadmin -f showpartners -h dn1wtcorevcs02.dcsprod.dcsroot.local -u "admnistrator@vsphere.local" -w "password"
+
+#Show partner servers.
+./vdcrepadmin -f showservers -h dn1wtcorevcs02.dcsprod.dcsroot.local -u "admnistrator@vsphere.local" -w "password"
+
+#Remove partner vCenters.
+./vdcrepadmin -f removeagreement -2 -h localhost -H dn1wtcorevcs02.dcsprod.dcsroot.local -u "admnistrator@vsphere.local" -w "M@nDr4k3!#"
+
+
+---------------------------------------------------------------------------------------
+Aria Operations
+---------------------------------------------------------------------------------------
+#Software update menu.
+https://10.162.36.30/admin/index.action#statusAndTroubleshooting
+
+
+
+
+
+

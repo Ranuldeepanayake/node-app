@@ -1,0 +1,24 @@
+#Dockerfile to create a NodeJS based app image.
+
+#Use the official node image.
+FROM node
+
+#Update the repositories.
+RUN apt update
+
+#Mount the host volume containing source code to the image.
+
+#Copy source files.
+COPY node-app /root/node-app
+
+#Set the working directory.
+WORKDIR /root/node-app
+
+#Install express js.
+RUN npm install
+
+#Install the express framework.
+RUN npm install express
+
+#Run the node application.
+CMD ["node", "/root/node-app/server.js"]

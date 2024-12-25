@@ -1,0 +1,15 @@
+{
+    "name": "nodejs-s3",
+    "version": "1.0.0",
+    "description": "A nodejs app to test S3 storage",
+    "author": "ranuldeepanyake@outlook.com",
+    "license": "MIT",
+    "main": "server.js",
+    "keywords": [
+      "nodejs",
+      "express"
+    ],
+    "dependencies": {
+      "express": "^4.16.4"
+    }
+  }

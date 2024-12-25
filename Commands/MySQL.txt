@@ -1,0 +1,41 @@
+#Create a new user which can log in only through localhost.
+create user 'node_app'@'localhost' identified by 'node_app@123';
+
+#Create a new user which can log in remotely.
+create user 'node_app'@'%' identified by 'node_app@123';
+
+#Show grants for a user account.  
+show grants for 'node_app'@'localhost';
+
+#Grant all privileges to a user for all databases.
+grant all privileges on *.* to 'node_app'@'localhost';
+
+#Grant all privileges to a user for a specific databse..
+grant all privileges on node_app.* to 'node_app'@'localhost';
+
+#Flush privileges after actions on user accounts.
+flush privileges; 
+
+#Revoke privileges.
+revoke all on *.* from 'node_app'@'localhost';
+
+#Grant selected privileges to a user.
+grant select, insert, update, delete on node_app.* to 'node_app'@'localhost';
+
+#Change the root password.
+ALTER USER 'root'@'localhost' IDENTIFIED BY 'password';
+
+#Show databases.
+show databases;
+
+#Select a database;
+use <database>;
+
+#Show tables in a database.
+show tables;
+
+#Show columns from table.
+show columns from table;
+
+#Changing the /etc/mysql/my.cnf config file to accept network connections from an interface if necessary.
+bind-address = x.x.x.x

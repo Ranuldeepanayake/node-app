@@ -1,0 +1,25 @@
+---
+  - name: Create an evironment for a dockerized test web application.
+    hosts: docker-host-1
+    become: yes
+
+    vars: 
+   
+    tasks:
+     - name: Pull the mysql image.I
+       command: "docker pull mysql:latest"
+
+     - name: Pull the php-mysql image.
+       command: "docker pull php"
+
+     - name: Create a container out of the mysql image.
+       command: "docker run --name=mysql-1 --detach --publish 3306:3306  --env MYSQL_ROOT_PASSWORD=root@123 mysql/mysql-server:latest"
+
+     - name: Create a container out of the php-mysql image.
+       command: "docker run --name=phpmyadmin-1 --detach --publish 8080:80 --env PMA_HOST=mysql-1 phpmyadmin/phpmyadmin:latest"
+
+     -name: Create a docker network bridge for the containers.
+      command: "docker network create app-network"
+
+     -name: Connect the containers to the created network.
+      command: "docker network connect mysql-1; docker network connect phpmyadmin-1"

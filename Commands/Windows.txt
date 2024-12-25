@@ -1,0 +1,32 @@
+#Get system info.
+msinfo32
+
+#Reset network settings (fixes the VPN issue).
+netsh winsock reset catalog
+netsh int ip reset reset.log
+
+#Disk speed command.
+./diskspd.exe -w50 -c5g -b4k -t2 -d3600 -L -o32 -a0 testfile1.dat
+
+#Log off a Windows user
+Run CMD as admin
+logoff 8 
+
+#Power Shell run unsigned scripts
+Set-ExecutionPolicy Unrestricted
+
+
+Get-FileHash .\arubaoscx-disk-image-genericx86-p4-20210812172945.vmdk -Algorithm MD5
+
+#Convert .vmdk to .qcow2 using qemu-img.exe
+.\qemu-img.exe convert -f vmdk "D:\Program Installers\GNS3\Aruba\10.8\arubaoscx-disk-image-genericx86-p4-20210812172945.vmdk" -O qcow2 "D:\Program Installers\GNS3\Aruba\10.8\arubaoscx-disk-image-genericx86-p4-20210812172945.qcow2"
+
+#Get battery report (Windows).
+powercfg /batteryreport /output "C:\battery-report.html"
+
+
+#Show open ports.
+netstat -aon
+
+#Find the process related to open ports.
+netstat -aon | Select-string "3389"; echo ""; tasklist | select-string "732"

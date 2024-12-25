@@ -1,0 +1,422 @@
+------------------------------------------------------------------------------------------
+Shell operations
+------------------------------------------------------------------------------------------
+#Show all environment variables.
+env
+
+#Show a particular environment variable.
+echo $VARIABLE_NAME 
+
+#Create a temporary environment variable.
+export $VARIABLE_NAME=VALUE
+export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64
+
+#Append a new location to the PATH environment variable temporarily.
+#Add the same statement in a profile config file or the global config file to be persistent.
+export PATH=$PATH:/home/ranul/bin
+export PATH=$PATH:$JAVA_HOME/bin
+
+#Reload a config file in the current terminal.
+source <filename>
+source .profile
+
+#Enter an environment variable to the global env file.
+/etc/environment
+/etc/profile
+JAVA_HOME="/usr/lib/jvm/jdk-17"
+
+#Reload the global environment variable file.
+source /etc/environment
+/etc/environment
+
+#Check startup programs.
+ls /etc/init.d
+
+------------------------------------------------------------------------------------------
+Package manager
+------------------------------------------------------------------------------------------
+#Install packages.
+apt install openjdk-17-jdk openjdk-17-jre
+
+#List all packages in the repository.
+apt list
+
+#List installed packages.
+apt list --installed
+
+#List upgradeable packages.
+sudo apt list --upgradable
+
+#Upgrade a specific package.
+sudo apt --only-upgrade install docker-ce
+
+#Remove a package.
+apt remove <package name>
+
+#Remove a package along with its dependencies.
+apt auto-remove <package name>
+
+#Repository list.
+https://jumpcloud.com/blog/how-to-manage-apt-repositories-debian-ubuntu
+/etc/apt/sources.list
+
+#Set the java version to be used.
+sudo update-alternatives --config java
+
+------------------------------------------------------------------------------------------
+File operations
+------------------------------------------------------------------------------------------
+#Show files recursively.
+ls -la -R
+
+#Find a file starting from a specific directory (subdirectories will be searched too).
+find / -iname 'book1*'
+find /vmfs/ -iname '*.iso*'
+
+#Find a file starting from the current directory (subdirectories will be searched too).
+find . -name "foo*"
+
+#Search for string case insensistive.
+cat file.txt | grep -i "address"
+
+#Search for multiple strings.
+cat file.txt | grep -E "IpV6Address|InstanceId"
+
+#Read files with less.
+less -NJM <file>
+
+#Check the size of directory contents
+du -hs * | sort -rh | head -5
+
+#Append to file.
+cat << EOF >> target.txt
+
+#Overwrite file.
+cat << EOF > target.txt
+
+sudo sh -c 'cat << EOF >> filename
+This is text entered via the keyboard.
+EOF'
+
+#Read a file in real-time.
+tail -f /var/log/dpkg.log
+less -NMJ +F /var/log/syslog
+
+#Show output on the screen and write to a file.
+<command> | tee -a <logfile>
+
+#Create an archive.
+tar -czvf <destination> <source>
+
+#Extract an archive.
+tar -xvf
+unzip <file>
+
+#Create a hard link.
+ln <file> <link name> 
+
+#Create a soft link (shortcut).
+ln -s <file> <link name> 
+
+#Separate text with a specific seperator.
+echo <text> | awk -F '-' {print $2}
+
+#Sed command with '~' as the seperator instead of '/'. 
+sed -i "s~DOCKERFILE_SOURCE_CODE_PATH~$WORKSPACE~g" "$WORKSPACE/docker/dockerfile-nodejs-s3"
+
+------------------------------------------------------------------------------------------
+File mounting
+------------------------------------------------------------------------------------------
+#Installing packages for NFS
+
+
+#Listing shares exported by an NFS server
+showmount -e
+
+#Mount an NFS3 file shares
+sudo mount -t nfs 10.25.6.40:/Share-1 /mnt/share-1
+
+#Permanent mount in fstab
+10.25.6.40:/Share-1 /mnt/share-1    nfs    defaults 0 0
+
+#Unmount a share
+sudo umount 10.25.6.40:/Share-1
+
+------------------------------------------------------------------------------------------
+SNMP 
+------------------------------------------------------------------------------------------
+#SNMP walk (used in the Park View agents)
+snmpwalk -v3 -l authPriv -u monitor -a SHA -A youSEE3ss -x AES -X youSEE3ss 10.25.26.11
+
+snmpwalk -v 2c 10.25.246.124 -c St0r4g3
+
+------------------------------------------------------------------------------------------
+Process management 
+------------------------------------------------------------------------------------------
+#Show all processes	
+ps -e
+ps -ef
+
+#Show processes of the current user.	
+ps -U root
+
+#Show processes of the current terminal.
+ps -T
+
+#Show background tasks.
+jobs
+
+#Send the process number in jobs to the background.
+bg 1
+
+#Send the process number in jobs to the foreground.
+fg 1
+
+#Kill process.
+kill <PID>
+
+#Force kill process.
+kill -9 <PID>
+
+#Kill process.
+pkill <PNAME>
+
+#Run a process in the background.
+apt install apache2 -y &
+
+#Run a process even when if the current terminal is closed.
+nohup apt install apache2 -y
+nohup ./script.sh
+
+#See resource utilization.
+top and e/shift+e
+
+------------------------------------------------------------------------------------------
+Networking 
+------------------------------------------------------------------------------------------
+#Check hostname
+hostname
+
+#Change hostname
+hostnamectl set-hostname <hostname>
+or
+vi /etc/hostname
+reboot if necessary
+
+#Set static IP address
+/etc/sysconfig/network-scripts/<interface-name>
+IPADDR=<>
+PREFIX=24
+GATEWAY=<>
+
+#Apply network configuration.
+netplan apply
+
+#Restart network service.
+systemctl restart network
+
+#Enable disable interface.
+ifup/ifdown <interface>
+ifconfig ens33 up/down
+
+#Show IPv4 route table
+route -n
+
+#Show IPv6 route table
+ip -6 route
+
+#Create SSH keys
+ssh-keygen -t rsa
+
+#Check key fingerprints.
+ssh-keygen -l -E md5 -f id_rsa
+
+#Check a UDP port with NetCat
+nc -v -u -z 10.25.35.100 161
+
+#Curl IPv6
+curl http://[2406:da18:aa3:2200:4ce7:bab3:ec74:26f5]:80
+curl -6 http://[2001:dead:beef:1::1]:80
+
+#Show headers in a request.
+curl -6 -I http://[2001:dead:beef:1::1]
+
+#Show interface info in a clean format.
+ip -br a
+
+#Check packet statistics.
+ip address -s -h
+
+#Check TCP connections.
+ip tcp_metrics
+
+------------------------------------------------------------------------------------------
+Storage
+------------------------------------------------------------------------------------------
+#Create a formatted file to be used for swapping.
+sudo dd if=/dev/zero of=/swapfile bs=64M count=16
+
+#Check disk IO.
+iostat -d --human 1 -p sda
+
+#List partitions of a disk.
+fdisk -l <disk>
+
+#Enter the partition manager.
+fdisk <disk>
+
+#Notify partition changes to the OS.
+partprobe
+
+#Resize the file system.
+resize2fs /dev/sda3
+
+------------------------------------------------------------------------------------------
+Date/Time
+------------------------------------------------------------------------------------------
+#Show date and time according to the specified format.
+date +%Y-%m-%d_%H:%M:%S
+
+#List timezones.
+timedatectl list-timezones | grep -i colombo
+
+------------------------------------------------------------------------------------------
+Security
+------------------------------------------------------------------------------------------
+#Change to a different user.
+su <user>
+
+#Change to root if the current user is a sudoer.
+sudo su
+
+#Log out of the current terminal.
+logout
+
+#Add a user to a group.
+usermod -aG <group> <user>
+
+#Change the password of a user.
+passwd <user>
+
+#Check the user file.
+cat /etc/passwd
+
+#Check the user file.
+cat /etc/group
+
+#Create self-signed SSL certificate.
+sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout ./private-key.key -out public-key.crt
+
+#Create self-signed SSL certificate (non-interactive).
+openssl req -new -newkey rsa:4096 -days 365 -nodes -x509 \
+    -subj "/C=LK/ST=Western/L=Colombo/O='Hamadaama Server Down'/CN=192.168.56.129" \
+    -keyout node-app-dev.key  -out node-app-dev.crt
+	
+sudo openssl req -new -newkey rsa:2048 -days 365 -nodes -x509 -subj "/C=LK/ST=Western/L=Colombo/O='mydomain'" -keyout medi2door-private-key.key  -out medi2door-public-key.crt
+
+#Create CSR and key (non-interactive).
+openssl req -new -newkey rsa:4096 -nodes \
+    -keyout www.example.com.key -out www.example.com.csr \
+    -subj "/C=US/ST=Denial/L=Springfield/O=Dis/CN=www.example.com"
+
+#Check a certificate.	
+openssl x509 -in mycert.pem -text -noout
+
+https://www.digitalocean.com/community/tutorials/iptables-essentials-common-firewall-rules-and-commands
+https://www.cyberciti.biz/faq/howto-display-linux-iptables-loaded-rules/
+#Show iptables rules of all chains as numeric output with packet counters.
+iptables -L -n -v --line-numbers
+
+#Show iptables rules of a specific chain.
+iptables -L OUTPUT -n --line-numbers
+
+#Show iptables rules of a specific chain.
+iptables -S OUTPUT --line-numbers
+
+#Insert a new rule.
+iptables -A INPUT -p tcp --dport 8080 -j REJECT
+
+#Delete a rule.
+iptables -D INPUT -p tcp --dport 8080 -j REJECT
+
+------------------------------------------------------------------------------------------
+Scripting
+------------------------------------------------------------------------------------------
+https://opensource.com/article/18/5/you-dont-know-bash-intro-bash-arrays
+
+#Echo with escape modifiers.
+echo -n "Hello \n world"
+
+#Assign a command output to a variable.
+_date=`date +%Y-%m-%d_%H:%M:%S`
+
+#Create file name with a varable's output.
+touch $_date.log
+
+#####Startup scripts using cron.
+
+- The below two lines are in the script to be executed.
+#!/bin/sh
+echo "Last reboot time: $(date)" > /etc/motd
+
+- Open the root cron tab.
+$ crontab -e
+
+- Add the below line in the cron tab.
+@reboot sh /home/ec2-user/reboot_message.sh
+
+#####Startup scripts using systemd.
+
+- Create a file in /etc/systemd/system as follows; 'filename.service'.
+
+- Include the below in the newly created file.
+[Unit]
+Description=Reboot message systemd service.
+
+[Service]
+Type=simple
+ExecStart=/bin/bash /home/user/script.sh
+
+[Install]
+WantedBy=multi-user.target
+
+- Both files created must be owned by root and have the execute bit set.
+
+- Enable the service. 
+$ systemctl enable reboot_message.service
+
+#####AWK
+awk '/regexp1/ && /regexp2/ && /regexp3/ { print; }'
+
+#####Text file manipulation
+
+#Move files based on their age.
+find ./ -maxdepth 1 -mtime +1 -type f -exec mv "{}" ./old \;
+find ./log-rotator -maxdepth 1 -iname '*.log' -mmin +5 -type f -exec rm "{}" \;
+
+#Loops
+ping www.google.com | while read pong; do echo "$(date): $pong"; done
+
+#Cron logs.
+tail -f /var/log/crond
+
+#Run cron job every two minutes.
+*/2 * * * * ~/repos/node-app/scripts/create-logs.sh >> ~/repos/node-app/scripts/rotator.log 2>&1
+
+------------------------------------------------------------------------------------------
+Email
+------------------------------------------------------------------------------------------
+https://phoenixnap.com/kb/postfix-smtp
+https://mailtrap.io/blog/linux-send-email/
+https://phoenixnap.com/kb/linux-mail-command
+
+#A mail client (MUA) needs an MTA on the same host to route out mails to other MTAs. Ex- mail or mailx requires sendmail or postfix as local MTAs.
+
+#Mail config files.
+/etc/postfix/main.cf
+/etc/mail/
+
+#Send an email through the 'mail' MUA (client).
+echo "This is a test email." | mail -s "Gmail SMTP Test" -a "From: ansible-controller-1" ranuldeepanayake@outlook.com
+echo "This is the body" | mail -s "Subject" -A testbackup.txt bhagwadpark@outlook.com
+echo -e $_email_content | mail -s "$_email_subject" -a "From: ansible-controller-1" $_email_recipient

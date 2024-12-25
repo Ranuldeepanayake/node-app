@@ -1,0 +1,45 @@
+porterrshow
+
+#Show port summary
+portshow
+
+chassisshow
+
+switchshow
+
+firmwareshow
+
+portstatsshow <port>
+
+#Show SFP statistics
+sfpshow <slot>/<port>
+
+#Check port flapping
+fabriclog -s
+
+#Show port configuration
+portcfgshow
+
+#Show zoning
+cfgshow
+
+#Show switch info
+fabricshow
+
+#Show the power supply status
+psshow	
+
+#Show the fan status
+fanshow
+
+#Show the temperature status
+tempshow	
+
+#Show the sensor status
+sensorshow
+
+#Shows the error log
+errshow
+
+#Export a comprehensive support bundle
+supportshow
