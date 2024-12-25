@@ -1,0 +1,40 @@
+---
+services:
+  web-1:
+    image: httpd:latest
+    networks:
+      - network-1
+    expose:
+      - 80
+    ports:
+      - "81:80"
+    extra_hosts:
+      kubernetes-master: 192.168.56.128
+    command: bash -c
+             "apt update &&
+              apt install -y iputils-ping &&
+              tail -f /dev/null"
+
+  proxy-1:
+    image: httpd:latest
+    environment:
+      - MYSQL_ROOT_PASSWORD=hCX7mcYKHdQZxbx8
+    networks:
+      - network-1
+    expose:
+      - 80
+    ports:
+      - "82:80"
+    extra_hosts:
+      kubernetes-master: 192.168.56.128
+    command: bash -c
+             "apt update &&
+              apt install -y iputils-ping &&
+              tail -f /dev/null"
+
+networks:
+  network-1:
+   name: app-1-network
+   driver: bridge
+
+ 
