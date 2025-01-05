@@ -4,6 +4,7 @@ locals {
   availability_zone = "ap-southeast-1a"
   subnet_id         = "subnet-08675481f2991773d"
   key_name          = "ec2-key-1-windows"
+  count             = "2"
 
   timemout_create = "10m"
   timemout_update = "15m"
