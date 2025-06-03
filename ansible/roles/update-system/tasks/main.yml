@@ -1,3 +1,0 @@
---- 
-- import_tasks: get-hostname.yml
-- import_tasks: update-packages.yml

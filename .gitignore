@@ -1,9 +1,0 @@
-#Node modules
-/source/node_modules/**
-/terraform/**/.terraform
-**/node_modules
-*/temp
-#**/terraform*
-#**terraform
-#**terraform*
-/scripts/**/*.log

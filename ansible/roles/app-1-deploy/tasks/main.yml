@@ -1,5 +1,0 @@
---- 
-- import_tasks: copy-docker-files.yml
-- import_tasks: pull-repo.yml
-- import_tasks: build-docker-image.yml
-#- import_tasks: run-docker-container.yml

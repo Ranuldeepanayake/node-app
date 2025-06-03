@@ -1,2 +1,0 @@
-# Installing a python module.
-python -m pip install requests

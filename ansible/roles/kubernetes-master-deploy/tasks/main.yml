@@ -1,3 +1,0 @@
---- 
-- import_tasks: kubernetes-master-deploy-script-copy.yml
-- import_tasks: kubernetes-master-deploy-script-run.yml

@@ -1,8 +1,0 @@
----
-- name: Get the hostname.
-  shell: "hostname"
-  register: output_1
-  no_log: true
-
-- debug: 
-    var: output_1.stdout_lines
